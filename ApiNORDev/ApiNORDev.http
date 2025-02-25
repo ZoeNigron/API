@@ -1,0 +1,6 @@
+@ApiNORDev_HostAddress = http://localhost:5039
+
+GET {{ApiNORDev_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
