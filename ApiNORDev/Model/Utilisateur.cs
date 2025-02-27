@@ -19,7 +19,7 @@ namespace ApiNORDev.Model
         public string Email { get; set; } = string.Empty;
 
         [Required]
-        public string PasswordHash { get; set; } = string.Empty;
+        public string MotDePasse { get; set; } = string.Empty;
 
         public Utilisateur() { }
 
@@ -29,15 +29,7 @@ namespace ApiNORDev.Model
             Nom = dto.Nom;
             Prenom = dto.Prenom;
             Email = dto.Email;
-            PasswordHash = HashPassword(dto.MotDePasse ?? ""); // Hachage sécurisé
-        }
-
-        private string HashPassword(string password)
-        {
-            using var sha256 = SHA256.Create();
-            var bytes = Encoding.UTF8.GetBytes(password);
-            var hash = sha256.ComputeHash(bytes);
-            return Convert.ToBase64String(hash);
+            MotDePasse = dto.MotDePasse ?? ""; // On stocke le mot de passe en clair
         }
     }
 }

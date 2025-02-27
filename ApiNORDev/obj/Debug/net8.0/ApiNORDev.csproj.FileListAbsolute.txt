@@ -158,3 +158,4 @@ C:\Users\zoeni\Documents\NORD\API\ApiNORDev\obj\Debug\net8.0\refint\ApiNORDev.dl
 C:\Users\zoeni\Documents\NORD\API\ApiNORDev\obj\Debug\net8.0\ApiNORDev.pdb
 C:\Users\zoeni\Documents\NORD\API\ApiNORDev\obj\Debug\net8.0\ApiNORDev.genruntimeconfig.cache
 C:\Users\zoeni\Documents\NORD\API\ApiNORDev\obj\Debug\net8.0\ref\ApiNORDev.dll
+C:\Users\zoeni\Documents\NORD\API\ApiNORDev\obj\Debug\net8.0\ApiNORDev.sourcelink.json

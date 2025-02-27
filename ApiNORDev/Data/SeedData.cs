@@ -23,7 +23,7 @@ namespace ApiNORDev.Data
                 Nom = "Nigron",
                 Prenom = "Zoé",
                 Email = "znigron@ensc.fr",
-                PasswordHash = "1234",
+                MotDePasse = "1234",
             };
 
             // Ajout des utilisateurs au DbSet

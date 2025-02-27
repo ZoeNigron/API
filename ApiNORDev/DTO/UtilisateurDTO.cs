@@ -17,19 +17,18 @@ namespace ApiNORDev.Dto
         [JsonPropertyName("email")]
         public string Email { get; set; } = string.Empty;
 
-        [JsonIgnore]
-        public string? MotDePasse { get; set; }
+        [JsonPropertyName("motdepasse")]
+        public string? MotDePasse { get; set; } // ➜ Permet l'envoi du mot de passe lors de la création
 
-        // Constructeur sans paramètre
         public UtilisateurDTO() { }
 
-        // Constructeur personnalisé pour mapper un Utilisateur en UtilisateurDTO
         public UtilisateurDTO(Utilisateur utilisateur)
         {
             Id = utilisateur.Id;
             Nom = utilisateur.Nom;
             Prenom = utilisateur.Prenom;
             Email = utilisateur.Email;
+            MotDePasse = utilisateur.MotDePasse;
         }
     }
 }
