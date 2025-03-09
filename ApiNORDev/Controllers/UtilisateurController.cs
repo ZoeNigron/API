@@ -45,6 +45,17 @@ namespace ApiNORDev.Controllers
                 return BadRequest("Les informations de l'utilisateur sont incomplètes.");
             }
 
+            // Vérifie si l'email existe déjà dans la base de données
+            var emailExiste = await _context.Utilisateurs.AnyAsync(u =>
+                u.Email == utilisateurDto.Email
+            );
+            if (emailExiste)
+            {
+                // Si l'email existe déjà, renvoie une erreur 400
+                return BadRequest(new { message = "Cet email est déjà utilisé." });
+            }
+
+            // Si l'email n'existe pas, crée un nouvel utilisateur
             var utilisateur = new Utilisateur
             {
                 Nom = utilisateurDto.Nom,
@@ -83,7 +94,14 @@ namespace ApiNORDev.Controllers
                 return Unauthorized("Email ou mot de passe incorrect.");
             }
 
-            return Ok(new { message = "Connexion réussie", token = "exempleToken" });
+            return Ok(
+                new
+                {
+                    message = "Connexion réussie",
+                    token = "exempleToken",
+                    id = utilisateur.Id,
+                }
+            );
         }
 
         [HttpPut("{id}")]

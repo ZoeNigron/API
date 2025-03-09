@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: API
+    env: dotnet
+    buildCommand: dotnet publish -c Release -o out
+    startCommand: dotnet out/API.dll
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production

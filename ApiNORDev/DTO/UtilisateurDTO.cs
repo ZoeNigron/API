@@ -18,7 +18,7 @@ namespace ApiNORDev.Dto
         public string Email { get; set; } = string.Empty;
 
         [JsonPropertyName("motdepasse")]
-        public string? MotDePasse { get; set; } // ➜ Permet l'envoi du mot de passe lors de la création
+        public string? MotDePasse { get; set; }
 
         public UtilisateurDTO() { }
 
