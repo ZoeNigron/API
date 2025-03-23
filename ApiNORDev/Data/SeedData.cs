@@ -12,7 +12,6 @@ namespace ApiNORDev.Data
             using var scope = serviceProvider.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ApiNORDevContext>();
 
-            // Ajouter des utilisateurs si ce n'est pas déjà fait
             if (!context.Utilisateurs.Any())
             {
                 var utilisateur1 = new Utilisateur
@@ -26,69 +25,6 @@ namespace ApiNORDev.Data
                 context.Utilisateurs.Add(utilisateur1);
             }
 
-            // Ajouter des questions si ce n'est pas déjà fait
-            if (!context.Questions.Any())
-            {
-                var question1 = new Question
-                {
-                    Contenu = "Pourquoi est-il important d'apprendre à évaluer les distances ?",
-                    Reponses = new List<Reponse>
-                    {
-                        new Reponse
-                        {
-                            Contenu = "Pour améliorer le sens de l'orientation",
-                            EstCorrecte = true,
-                        },
-                        new Reponse
-                        {
-                            Contenu = "Pour savoir mesurer précisément au mètre près",
-                            EstCorrecte = false,
-                        },
-                        new Reponse
-                        {
-                            Contenu = "Pour calculer le temps de trajet exact",
-                            EstCorrecte = false,
-                        },
-                    },
-                    IdReponseCorrecte = 1,
-                };
-
-                var question2 = new Question
-                {
-                    Contenu = "Quelle marge de précision est-elle pertinente de savoir estimer ?",
-                    Reponses = new List<Reponse>
-                    {
-                        new Reponse { Contenu = "+/- 1 mètre", EstCorrecte = false },
-                        new Reponse { Contenu = "+/- 10 mètres", EstCorrecte = true },
-                        new Reponse { Contenu = "+/- 1000 mètres", EstCorrecte = false },
-                    },
-                    IdReponseCorrecte = 2,
-                };
-
-                var question3 = new Question
-                {
-                    Contenu = "Qu'est-ce qu'une bonne estimation des distances permet de faire ?",
-                    Reponses = new List<Reponse>
-                    {
-                        new Reponse { Contenu = "Choisir le meilleur chemin", EstCorrecte = false },
-                        new Reponse
-                        {
-                            Contenu = "Éviter de se perdre en estimant les intersections",
-                            EstCorrecte = true,
-                        },
-                        new Reponse
-                        {
-                            Contenu = "Faire des calculs complexes de distance",
-                            EstCorrecte = false,
-                        },
-                    },
-                    IdReponseCorrecte = 2,
-                };
-
-                context.Questions.AddRange(question1, question2, question3);
-            }
-
-            // Ajouter les astuces si ce n'est pas déjà fait
             if (!context.Astuces.Any())
             {
                 var astuces = new[]
