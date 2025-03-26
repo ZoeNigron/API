@@ -158,5 +158,29 @@ namespace ApiNORDev.Controllers
 
             return Ok();
         }
+
+        [HttpPost("updateScore")]
+        public async Task<IActionResult> UpdateScore(int userId, int score)
+        {
+            var utilisateur = await _context.Utilisateurs.FirstOrDefaultAsync(u => u.Id == userId);
+            if (utilisateur == null)
+            {
+                return NotFound("Utilisateur non trouvé");
+            }
+
+            // Ajout de la logique pour valider le score consécutif si nécessaire
+            utilisateur.Score += score; // Ajouter ou mettre à jour le score
+            _context.SaveChanges();
+
+            return Ok(utilisateur);
+        }
+
+        [HttpGet("topScores")]
+        public IActionResult GetTopScores()
+        {
+            var topScores = _context.Utilisateurs.OrderByDescending(u => u.Score).Take(10).ToList();
+
+            return Ok(topScores);
+        }
     }
 }

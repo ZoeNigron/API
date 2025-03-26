@@ -20,6 +20,9 @@ namespace ApiNORDev.Dto
         [JsonPropertyName("motdepasse")]
         public string? MotDePasse { get; set; }
 
+        [JsonPropertyName("score")]
+        public int Score { get; set; }
+
         public UtilisateurDTO() { }
 
         public UtilisateurDTO(Utilisateur utilisateur)
@@ -29,6 +32,7 @@ namespace ApiNORDev.Dto
             Prenom = utilisateur.Prenom;
             Email = utilisateur.Email;
             MotDePasse = utilisateur.MotDePasse;
+            Score = utilisateur.Score;
         }
     }
 }

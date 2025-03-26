@@ -25,7 +25,10 @@ builder.Services.AddCors(options =>
         name: MyAllowSpecificOrigins,
         policy =>
         {
-            policy.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod();
+            policy
+                .WithOrigins("http://localhost:3000", "http://172.20.10.2:3000")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
         }
     );
 });
@@ -57,4 +60,4 @@ app.UseCors(MyAllowSpecificOrigins);
 app.MapControllers();
 
 // Démarrer l'application
-app.Run();
+app.Run("http://0.0.0.0:5039");

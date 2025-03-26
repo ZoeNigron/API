@@ -79,6 +79,114 @@ namespace ApiNORDev.Data
 
                 context.Astuces.AddRange(astuces);
             }
+            if (!context.Competences.Any())
+            {
+                var competences = new[]
+                {
+                    new Competence
+                    {
+                        Titre = "Compétence 1",
+                        Description = "Évaluer les distances",
+                        Lien = "/evaluer-les-distances",
+                    },
+                    new Competence
+                    {
+                        Titre = "Compétence 2",
+                        Description = "S'orienter avec les points cardinaux",
+                        Lien = "/page-non-developpee",
+                    },
+                    new Competence
+                    {
+                        Titre = "Compétence 3",
+                        Description = "Distances et points cardinaux",
+                        Lien = "/page-non-developpee",
+                    },
+                };
+
+                context.Competences.AddRange(competences);
+            }
+
+            if (!context.Exercices.Any())
+            {
+                var exercices = new[]
+                {
+                    new Exercice { Nom = "Exercice 20m", DistanceCible = 20 },
+                    new Exercice { Nom = "Exercice 50m", DistanceCible = 50 },
+                    new Exercice { Nom = "Exercice 100m", DistanceCible = 100 },
+                };
+
+                context.Exercices.AddRange(exercices);
+            }
+            if (!context.Lecons.Any())
+            {
+                var lecons = new[]
+                {
+                    new Lecon
+                    {
+                        Titre = "Leçon 1 : Estimation des distances en se déplaçant",
+                        Description = "Estimer une distance après avoir marché.",
+                        Objectif =
+                            "Appuyez sur le bouton 'Démarrer' puis déplacez-vous du nombre de mètres nécessaire. Quand vous estimez être arrivé, appuyez sur le bouton 'Terminer'.",
+                    },
+                    new Lecon
+                    {
+                        Titre = "Leçon 2 : Estimation des distances sans se déplacer",
+                        Description = "Estimer une distance en regardant devant soi.",
+                        Objectif =
+                            "Regardez devant vous et ciblez un point fixe. Cliquez sur la carte afin de positionner ce point, puis estimez la distance à laquelle vous vous trouvez de ce point.",
+                    },
+                };
+
+                context.Lecons.AddRange(lecons);
+            }
+
+            if (!context.QuestionsQuiz.Any())
+            {
+                var questionsQuiz = new[]
+                {
+                    new QuestionQuiz
+                    {
+                        Question =
+                            "Pourquoi est-il important d'apprendre à évaluer les distances ?",
+                        Options = new List<Option>
+                        {
+                            new Option
+                            {
+                                Texte = "Pour améliorer le sens de l'orientation",
+                                EstCorrecte = true,
+                            },
+                            new Option
+                            {
+                                Texte = "Pour savoir mesurer précisément au mètre près",
+                                EstCorrecte = false,
+                            },
+                            new Option
+                            {
+                                Texte = "Pour calculer le temps de trajet exact",
+                                EstCorrecte = false,
+                            },
+                        },
+                        Explication =
+                            "Apprendre à évaluer les distances améliore la capacité à se repérer dans l'espace.",
+                    },
+                    new QuestionQuiz
+                    {
+                        Question =
+                            "Quelle marge de précision est-elle pertinente de savoir estimer ?",
+                        Options = new List<Option>
+                        {
+                            new Option { Texte = "+/- 1 mètre", EstCorrecte = false },
+                            new Option { Texte = "+/- 10 mètres", EstCorrecte = true },
+                            new Option { Texte = "+/- 1000 mètres", EstCorrecte = false },
+                        },
+                        Explication =
+                            "Une estimation précise à +/- 10 mètres est généralement suffisante.",
+                    },
+                };
+
+                context.QuestionsQuiz.AddRange(questionsQuiz);
+                context.SaveChanges();
+            }
 
             context.SaveChanges();
         }

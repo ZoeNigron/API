@@ -21,6 +21,8 @@ namespace ApiNORDev.Model
         [Required]
         public string MotDePasse { get; set; } = string.Empty;
 
+        public int Score { get; set; } = 0;
+
         public Utilisateur() { }
 
         public Utilisateur(UtilisateurDTO dto)
@@ -29,7 +31,8 @@ namespace ApiNORDev.Model
             Nom = dto.Nom;
             Prenom = dto.Prenom;
             Email = dto.Email;
-            MotDePasse = dto.MotDePasse ?? ""; // On stocke le mot de passe en clair
+            MotDePasse = dto.MotDePasse ?? "";
+            Score = dto.Score;
         }
     }
 }
