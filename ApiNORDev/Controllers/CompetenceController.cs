@@ -3,6 +3,7 @@ using System.Linq;
 using ApiNORDev.Data;
 using ApiNORDev.Model;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace ApiNORDev.Controllers
 {
@@ -19,6 +20,16 @@ namespace ApiNORDev.Controllers
 
         // GET: api/competences
         [HttpGet]
+        [SwaggerOperation(
+            Summary = "Liste de toutes les compétences",
+            Description = "Récupère toutes les compétences disponibles"
+        )]
+        [SwaggerResponse(
+            StatusCodes.Status200OK,
+            "Liste des compétences trouvée",
+            typeof(IEnumerable<Competence>)
+        )]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "Aucune compétence trouvée")]
         public ActionResult<IEnumerable<Competence>> GetCompetences()
         {
             var competences = _context.Competences.ToList();
@@ -32,6 +43,12 @@ namespace ApiNORDev.Controllers
 
         // GET: api/competences/{id}
         [HttpGet("{id}")]
+        [SwaggerOperation(
+            Summary = "Récupérer une compétence par ID",
+            Description = "Récupère une compétence spécifique à partir de son ID"
+        )]
+        [SwaggerResponse(StatusCodes.Status200OK, "Compétence trouvée", typeof(Competence))]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "Compétence introuvable")]
         public ActionResult<Competence> GetCompetence(int id)
         {
             var competence = _context.Competences.Find(id);
@@ -46,6 +63,19 @@ namespace ApiNORDev.Controllers
 
         // POST: api/competences
         [HttpPost]
+        [SwaggerOperation(
+            Summary = "Créer une nouvelle compétence",
+            Description = "Ajoute une nouvelle compétence"
+        )]
+        [SwaggerResponse(
+            StatusCodes.Status201Created,
+            "Compétence créée avec succès",
+            typeof(Competence)
+        )]
+        [SwaggerResponse(
+            StatusCodes.Status400BadRequest,
+            "Les données de la compétence sont invalides"
+        )]
         public ActionResult<Competence> PostCompetence([FromBody] Competence competence)
         {
             if (competence == null)
@@ -61,6 +91,16 @@ namespace ApiNORDev.Controllers
 
         // PUT: api/competences/{id}
         [HttpPut("{id}")]
+        [SwaggerOperation(
+            Summary = "Mettre à jour une compétence",
+            Description = "Met à jour une compétence existante"
+        )]
+        [SwaggerResponse(StatusCodes.Status204NoContent, "Compétence mise à jour avec succès")]
+        [SwaggerResponse(
+            StatusCodes.Status400BadRequest,
+            "Les données de la compétence sont invalides ou l'ID ne correspond pas"
+        )]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "Compétence introuvable")]
         public IActionResult PutCompetence(int id, [FromBody] Competence competence)
         {
             if (id != competence.Id)
@@ -81,6 +121,12 @@ namespace ApiNORDev.Controllers
 
         // DELETE: api/competences/{id}
         [HttpDelete("{id}")]
+        [SwaggerOperation(
+            Summary = "Supprimer une compétence",
+            Description = "Supprime une compétence existante à partir de son ID"
+        )]
+        [SwaggerResponse(StatusCodes.Status204NoContent, "Compétence supprimée avec succès")]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "Compétence introuvable")]
         public IActionResult DeleteCompetence(int id)
         {
             var competence = _context.Competences.Find(id);

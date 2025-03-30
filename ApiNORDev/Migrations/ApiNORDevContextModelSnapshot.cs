@@ -95,7 +95,7 @@ namespace ApiNORDev.Migrations
                     b.Property<bool>("EstCorrecte")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("QuestionQuizId")
+                    b.Property<int>("QuestionQuizId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Texte")
@@ -126,6 +126,25 @@ namespace ApiNORDev.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("QuestionsQuiz");
+                });
+
+            modelBuilder.Entity("ApiNORDev.Model.Quiz", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.PrimitiveCollection<string>("QuestionQuizIds")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Titre")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Quizzes");
                 });
 
             modelBuilder.Entity("ApiNORDev.Model.Utilisateur", b =>
@@ -160,9 +179,13 @@ namespace ApiNORDev.Migrations
 
             modelBuilder.Entity("ApiNORDev.Model.Option", b =>
                 {
-                    b.HasOne("ApiNORDev.Model.QuestionQuiz", null)
+                    b.HasOne("ApiNORDev.Model.QuestionQuiz", "QuestionQuiz")
                         .WithMany("Options")
-                        .HasForeignKey("QuestionQuizId");
+                        .HasForeignKey("QuestionQuizId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("QuestionQuiz");
                 });
 
             modelBuilder.Entity("ApiNORDev.Model.QuestionQuiz", b =>

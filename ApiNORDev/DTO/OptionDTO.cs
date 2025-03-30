@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using ApiNORDev.Model;
 
-namespace ApiNORDev.Model
+namespace ApiNORDev.Dto
 {
     public class OptionDTO
     {
@@ -14,10 +15,14 @@ namespace ApiNORDev.Model
         [JsonPropertyName("estCorrecte")]
         public bool EstCorrecte { get; set; }
 
+        [JsonPropertyName("questionQuizId")]
+        public int QuestionQuizId { get; set; }
+
         public OptionDTO() { }
 
         public OptionDTO(Option option)
         {
+            QuestionQuizId = option.QuestionQuizId;
             Id = option.Id;
             Texte = option.Texte;
             EstCorrecte = option.EstCorrecte;

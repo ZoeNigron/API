@@ -1,6 +1,8 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
+using ApiNORDev.Model;
 
-namespace ApiNORDev.Model
+namespace ApiNORDev.Dto
 {
     public class LeconDTO
     {

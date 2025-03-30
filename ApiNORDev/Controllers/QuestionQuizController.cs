@@ -1,13 +1,14 @@
 using ApiNORDev.Data;
+using ApiNORDev.Dto;
 using ApiNORDev.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace ApiNORDev.Controllers
+namespace BoutiqueWeb.Controllers
 {
     [ApiController]
-    [Route("api/questions")]
+    [Route("api/questionsquiz")]
     public class QuestionQuizController : ControllerBase
     {
         private readonly ApiNORDevContext _context;
@@ -19,132 +20,124 @@ namespace ApiNORDev.Controllers
 
         [HttpGet]
         [SwaggerOperation(
-            Summary = "Liste de toutes les questions",
-            Description = "Récupère les informations détaillées de toutes les questions enregistrées"
+            Summary = "Liste de toutes les questions quiz",
+            Description = "Récupère toutes les questions quiz"
         )]
         [SwaggerResponse(
             StatusCodes.Status200OK,
-            "Liste des questions trouvée",
+            "Liste des questions quiz trouvée",
             typeof(IEnumerable<QuestionQuizDTO>)
         )]
-        [SwaggerResponse(StatusCodes.Status404NotFound, "Aucune question trouvée")]
-        public async Task<ActionResult<IEnumerable<QuestionQuizDTO>>> GetQuestions()
+        [SwaggerResponse(StatusCodes.Status404NotFound, "Aucune question quiz trouvée")]
+        public async Task<ActionResult<IEnumerable<QuestionQuizDTO>>> GetQuestionsQuiz()
         {
-            var questions = await _context
-                .QuestionsQuiz.Select(q => new QuestionQuizDTO
-                {
-                    Id = q.Id,
-                    Question = q.Question,
-                    Explication = q.Explication,
-                })
+            var questionQuiz = await _context
+                .QuestionsQuiz.Select(c => new QuestionQuizDTO(c))
                 .ToListAsync();
 
-            if (!questions.Any())
+            if (!questionQuiz.Any())
             {
                 return NotFound();
             }
 
-            return Ok(questions);
+            return Ok(questionQuiz);
         }
 
         [HttpGet("{id}")]
         [SwaggerOperation(
-            Summary = "Liste d'une question unique",
-            Description = "Récupère les informations détaillées d'une question par son identifiant"
+            Summary = "Récupérer une question quiz par ID",
+            Description = "Renvoie une question quiz spécifique"
         )]
-        [SwaggerResponse(StatusCodes.Status200OK, "Question trouvée", typeof(QuestionQuizDTO))]
-        [SwaggerResponse(StatusCodes.Status404NotFound, "Question introuvable")]
-        public async Task<ActionResult<QuestionQuizDTO>> GetQuestion(int id)
+        [SwaggerResponse(StatusCodes.Status200OK, "Question quiz trouvée", typeof(QuestionQuizDTO))]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "Question quiz introuvable")]
+        public async Task<ActionResult<QuestionQuizDTO>> GetQuestionQuiz(
+            [
+                FromRoute,
+                SwaggerParameter(Description = "Identifiant de la question quiz à récupérer")
+            ]
+                int id
+        )
         {
-            var question = await _context.QuestionsQuiz.SingleOrDefaultAsync(q => q.Id == id);
+            var questionQuiz = await _context.QuestionsQuiz.SingleOrDefaultAsync(c => c.Id == id);
 
-            if (question == null)
+            if (questionQuiz == null)
             {
                 return NotFound();
             }
 
-            return Ok(
-                new QuestionQuizDTO
-                {
-                    Id = question.Id,
-                    Question = question.Question,
-                    Explication = question.Explication,
-                }
-            );
+            return Ok(new QuestionQuizDTO(questionQuiz));
         }
 
         [HttpPost]
         [SwaggerOperation(
-            Summary = "Ajouter une question",
-            Description = "Ajoute une nouvelle question à la base de données"
+            Summary = "Ajouter une nouvelle question quiz",
+            Description = "Ajoute une nouvelle question quiz"
         )]
         [SwaggerResponse(
-            StatusCodes.Status200OK,
-            "Question ajoutée avec succès",
+            StatusCodes.Status201Created,
+            "Question quiz ajoutée avec succès",
             typeof(QuestionQuizDTO)
         )]
-        [SwaggerResponse(StatusCodes.Status404NotFound, "Impossible d'ajouter la question")]
-        public async Task<ActionResult<QuestionQuizDTO>> PostQuestion(
-            [FromBody] QuestionQuizDTO questionDTO
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Données invalides")]
+        public async Task<ActionResult<QuestionQuizDTO>> PostQuestionQuiz(
+            [FromBody, SwaggerParameter(Description = "Données de la question quiz à créer")]
+                QuestionQuizDTO questionQuizDTO
         )
         {
-            if (questionDTO == null)
+            if (questionQuizDTO == null)
             {
                 return NotFound();
             }
 
-            var question = new QuestionQuiz
-            {
-                Question = questionDTO.Question,
-                Explication = questionDTO.Explication,
-            };
+            QuestionQuiz questionQuiz = new QuestionQuiz(questionQuizDTO);
 
             try
             {
-                _context.QuestionsQuiz.Add(question);
+                _context.QuestionsQuiz.Add(questionQuiz);
                 await _context.SaveChangesAsync();
 
-                return Ok(
-                    new QuestionQuizDTO
-                    {
-                        Id = question.Id,
-                        Question = question.Question,
-                        Explication = question.Explication,
-                    }
+                return CreatedAtAction(
+                    nameof(GetQuestionQuiz),
+                    new { id = questionQuiz.Id },
+                    new QuestionQuizDTO(questionQuiz)
                 );
             }
             catch
             {
-                return NotFound();
+                return BadRequest("Une erreur est survenue lors de l'ajout de la question quiz.");
             }
         }
 
         [HttpPut("{id}")]
         [SwaggerOperation(
-            Summary = "Mettre à jour une question",
-            Description = "Met à jour les informations d'une question existante en fonction de son identifiant"
+            Summary = "Mettre à jour une question quiz",
+            Description = "Modifie une question quiz existante"
         )]
         [SwaggerResponse(
             StatusCodes.Status200OK,
-            "Question mise à jour avec succès",
+            "Question quiz mise à jour avec succès",
             typeof(QuestionQuizDTO)
         )]
-        [SwaggerResponse(StatusCodes.Status404NotFound, "Question introuvable ou non mise à jour")]
-        public async Task<IActionResult> PutQuestion(int id, [FromBody] QuestionQuizDTO questionDTO)
+        [SwaggerResponse(StatusCodes.Status404NotFound, "Question quiz introuvable")]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Données invalides")]
+        public async Task<IActionResult> PutQuestionQuiz(
+            [
+                FromRoute,
+                SwaggerParameter(Description = "Identifiant de la question quiz à modifier")
+            ]
+                int id,
+            [FromBody, SwaggerParameter(Description = "Données mises à jour de la question quiz")]
+                QuestionQuizDTO questionQuizDTO
+        )
         {
-            if (id != questionDTO.Id)
+            if (id != questionQuizDTO.Id)
             {
-                return NotFound();
+                return BadRequest("L'ID de la question quiz ne correspond pas.");
             }
 
-            var questionExistante = await _context.QuestionsQuiz.FindAsync(id);
-            if (questionExistante == null)
-            {
-                return NotFound();
-            }
+            QuestionQuiz questionQuiz = new QuestionQuiz(questionQuizDTO);
 
-            questionExistante.Question = questionDTO.Question;
-            questionExistante.Explication = questionDTO.Explication;
+            _context.Entry(questionQuiz).State = EntityState.Modified;
 
             try
             {
@@ -152,7 +145,7 @@ namespace ApiNORDev.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!_context.QuestionsQuiz.Any(q => q.Id == id))
+                if (!_context.QuestionsQuiz.Any(c => c.Id == id))
                 {
                     return NotFound();
                 }
@@ -162,29 +155,35 @@ namespace ApiNORDev.Controllers
                 }
             }
 
-            return Ok(questionDTO);
+            return Ok(questionQuizDTO);
         }
 
         [HttpDelete("{id}")]
         [SwaggerOperation(
-            Summary = "Supprimer une question",
-            Description = "Supprime une question existante en fonction de son identifiant"
+            Summary = "Supprimer une question quiz",
+            Description = "Supprime une question quiz existante"
         )]
-        [SwaggerResponse(StatusCodes.Status200OK, "Question supprimée avec succès")]
-        [SwaggerResponse(StatusCodes.Status404NotFound, "Question introuvable")]
-        public async Task<ActionResult> DeleteQuestion(int id)
+        [SwaggerResponse(StatusCodes.Status200OK, "Question quiz supprimée avec succès")]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "Question quiz introuvable")]
+        public async Task<ActionResult> DeleteQuestionQuiz(
+            [
+                FromRoute,
+                SwaggerParameter(Description = "Identifiant de la question quiz à supprimer")
+            ]
+                int id
+        )
         {
-            var question = await _context.QuestionsQuiz.FindAsync(id);
+            var questionQuiz = await _context.QuestionsQuiz.FindAsync(id);
 
-            if (question == null)
+            if (questionQuiz == null)
             {
                 return NotFound();
             }
 
-            _context.QuestionsQuiz.Remove(question);
+            _context.QuestionsQuiz.Remove(questionQuiz);
             await _context.SaveChangesAsync();
 
-            return Ok(new { Message = "Question supprimée avec succès" });
+            return Ok(new { Message = "Question quiz supprimée avec succès" });
         }
     }
 }

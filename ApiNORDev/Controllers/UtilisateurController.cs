@@ -18,6 +18,16 @@ namespace ApiNORDev.Controllers
         }
 
         [HttpGet]
+        [SwaggerOperation(
+            Summary = "Liste de tous les utilisateurs",
+            Description = "Récupère tous les utilisateurs"
+        )]
+        [SwaggerResponse(
+            StatusCodes.Status200OK,
+            "Liste des utilisateurs trouvée",
+            typeof(IEnumerable<UtilisateurDTO>)
+        )]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "Aucun utilisateur trouvé")]
         public async Task<ActionResult<IEnumerable<UtilisateurDTO>>> GetUtilisateurs()
         {
             var utilisateurs = await _context
@@ -27,6 +37,12 @@ namespace ApiNORDev.Controllers
         }
 
         [HttpGet("{id}")]
+        [SwaggerOperation(
+            Summary = "Récupérer un utilisateur par ID",
+            Description = "Renvoie un utilisateur spécifique"
+        )]
+        [SwaggerResponse(StatusCodes.Status200OK, "Utilisateur trouvé", typeof(UtilisateurDTO))]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "Utilisateur introuvable")]
         public async Task<ActionResult<UtilisateurDTO>> GetUtilisateur(int id)
         {
             var utilisateur = await _context.Utilisateurs.FindAsync(id);
@@ -34,6 +50,19 @@ namespace ApiNORDev.Controllers
         }
 
         [HttpPost("creer")]
+        [SwaggerOperation(
+            Summary = "Créer un utilisateur",
+            Description = "Ajoute un nouvel utilisateur"
+        )]
+        [SwaggerResponse(
+            StatusCodes.Status201Created,
+            "Utilisateur créé avec succès",
+            typeof(UtilisateurDTO)
+        )]
+        [SwaggerResponse(
+            StatusCodes.Status400BadRequest,
+            "Données invalides ou email déjà utilisé"
+        )]
         public async Task<IActionResult> PostUtilisateur([FromBody] UtilisateurDTO utilisateurDto)
         {
             Console.WriteLine(
@@ -45,17 +74,14 @@ namespace ApiNORDev.Controllers
                 return BadRequest("Les informations de l'utilisateur sont incomplètes.");
             }
 
-            // Vérifie si l'email existe déjà dans la base de données
             var emailExiste = await _context.Utilisateurs.AnyAsync(u =>
                 u.Email == utilisateurDto.Email
             );
             if (emailExiste)
             {
-                // Si l'email existe déjà, renvoie une erreur 400
                 return BadRequest(new { message = "Cet email est déjà utilisé." });
             }
 
-            // Si l'email n'existe pas, crée un nouvel utilisateur
             var utilisateur = new Utilisateur
             {
                 Nom = utilisateurDto.Nom,
@@ -75,6 +101,13 @@ namespace ApiNORDev.Controllers
         }
 
         [HttpPost("connecter")]
+        [SwaggerOperation(
+            Summary = "Connexion utilisateur",
+            Description = "Permet à un utilisateur de se connecter"
+        )]
+        [SwaggerResponse(StatusCodes.Status200OK, "Connexion réussie", typeof(object))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Email ou mot de passe requis")]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized, "Email ou mot de passe incorrect")]
         public async Task<IActionResult> Login([FromBody] UtilisateurDTO utilisateurDto)
         {
             if (
@@ -105,12 +138,22 @@ namespace ApiNORDev.Controllers
         }
 
         [HttpPut("{id}")]
+        [SwaggerOperation(
+            Summary = "Mettre à jour un utilisateur",
+            Description = "Modifie un utilisateur existant"
+        )]
+        [SwaggerResponse(
+            StatusCodes.Status200OK,
+            "Utilisateur mis à jour avec succès",
+            typeof(UtilisateurDTO)
+        )]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Données invalides")]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "Utilisateur introuvable")]
         public async Task<IActionResult> PutUtilisateur(
             int id,
             [FromBody] UtilisateurDTO utilisateurDto
         )
         {
-            // Vérifie si les données envoyées sont valides
             if (
                 utilisateurDto == null
                 || string.IsNullOrEmpty(utilisateurDto.Nom)
@@ -120,33 +163,34 @@ namespace ApiNORDev.Controllers
                 return BadRequest("Les informations de l'utilisateur sont incomplètes.");
             }
 
-            // Recherche l'utilisateur à mettre à jour
             var utilisateur = await _context.Utilisateurs.FindAsync(id);
             if (utilisateur == null)
             {
                 return NotFound("L'utilisateur avec l'ID donné n'existe pas.");
             }
 
-            // Mise à jour des informations de l'utilisateur
             utilisateur.Nom = utilisateurDto.Nom;
             utilisateur.Prenom = utilisateurDto.Prenom;
             utilisateur.Email = utilisateurDto.Email;
 
-            // Si un nouveau mot de passe est fourni, on le met à jour
             if (!string.IsNullOrEmpty(utilisateurDto.MotDePasse))
             {
                 utilisateur.MotDePasse = utilisateurDto.MotDePasse;
             }
 
-            // Sauvegarde les changements dans la base de données
             _context.Entry(utilisateur).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
-            // Retourne les informations de l'utilisateur mises à jour
             return Ok(new UtilisateurDTO(utilisateur));
         }
 
         [HttpDelete("{id}")]
+        [SwaggerOperation(
+            Summary = "Supprimer un utilisateur",
+            Description = "Supprime un utilisateur existant"
+        )]
+        [SwaggerResponse(StatusCodes.Status200OK, "Utilisateur supprimé avec succès")]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "Utilisateur introuvable")]
         public async Task<IActionResult> DeleteUtilisateur(int id)
         {
             var utilisateur = await _context.Utilisateurs.FindAsync(id);
@@ -160,6 +204,16 @@ namespace ApiNORDev.Controllers
         }
 
         [HttpPost("updateScore")]
+        [SwaggerOperation(
+            Summary = "Mettre à jour le score d'un utilisateur",
+            Description = "Ajoute un score à un utilisateur"
+        )]
+        [SwaggerResponse(
+            StatusCodes.Status200OK,
+            "Score mis à jour avec succès",
+            typeof(Utilisateur)
+        )]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "Utilisateur introuvable")]
         public async Task<IActionResult> UpdateScore(int userId, int score)
         {
             var utilisateur = await _context.Utilisateurs.FirstOrDefaultAsync(u => u.Id == userId);
@@ -168,18 +222,25 @@ namespace ApiNORDev.Controllers
                 return NotFound("Utilisateur non trouvé");
             }
 
-            // Ajout de la logique pour valider le score consécutif si nécessaire
-            utilisateur.Score += score; // Ajouter ou mettre à jour le score
+            utilisateur.Score += score;
             _context.SaveChanges();
 
             return Ok(utilisateur);
         }
 
         [HttpGet("topScores")]
+        [SwaggerOperation(
+            Summary = "Obtenir les meilleurs scores",
+            Description = "Récupère les 10 meilleurs scores des utilisateurs"
+        )]
+        [SwaggerResponse(
+            StatusCodes.Status200OK,
+            "Top scores récupérés avec succès",
+            typeof(IEnumerable<Utilisateur>)
+        )]
         public IActionResult GetTopScores()
         {
             var topScores = _context.Utilisateurs.OrderByDescending(u => u.Score).Take(10).ToList();
-
             return Ok(topScores);
         }
     }

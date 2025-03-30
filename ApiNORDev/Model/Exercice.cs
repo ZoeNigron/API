@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using ApiNORDev.Dto;
 
 namespace ApiNORDev.Model
 {

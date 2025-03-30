@@ -3,6 +3,7 @@ using System.Linq;
 using ApiNORDev.Data;
 using ApiNORDev.Model;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace ApiNORDev.Controllers
 {
@@ -19,6 +20,16 @@ namespace ApiNORDev.Controllers
 
         // GET: api/exercices
         [HttpGet]
+        [SwaggerOperation(
+            Summary = "Liste de tous les exercices",
+            Description = "Récupère tous les exercices disponibles"
+        )]
+        [SwaggerResponse(
+            StatusCodes.Status200OK,
+            "Liste des exercices trouvée",
+            typeof(IEnumerable<Exercice>)
+        )]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "Aucun exercice trouvé")]
         public ActionResult<IEnumerable<Exercice>> GetExercices()
         {
             var exercices = _context.Exercices.ToList();
@@ -32,6 +43,12 @@ namespace ApiNORDev.Controllers
 
         // GET: api/exercices/{id}
         [HttpGet("{id}")]
+        [SwaggerOperation(
+            Summary = "Récupérer un exercice par ID",
+            Description = "Récupère un exercice spécifique à partir de son ID"
+        )]
+        [SwaggerResponse(StatusCodes.Status200OK, "Exercice trouvé", typeof(Exercice))]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "Exercice introuvable")]
         public ActionResult<Exercice> GetExercice(int id)
         {
             var exercice = _context.Exercices.Find(id);
@@ -46,6 +63,19 @@ namespace ApiNORDev.Controllers
 
         // POST: api/exercices
         [HttpPost]
+        [SwaggerOperation(
+            Summary = "Créer un nouvel exercice",
+            Description = "Ajoute un nouvel exercice"
+        )]
+        [SwaggerResponse(
+            StatusCodes.Status201Created,
+            "Exercice créé avec succès",
+            typeof(Exercice)
+        )]
+        [SwaggerResponse(
+            StatusCodes.Status400BadRequest,
+            "Les données de l'exercice sont invalides"
+        )]
         public ActionResult<Exercice> PostExercice([FromBody] Exercice exercice)
         {
             if (exercice == null)
@@ -61,6 +91,16 @@ namespace ApiNORDev.Controllers
 
         // PUT: api/exercices/{id}
         [HttpPut("{id}")]
+        [SwaggerOperation(
+            Summary = "Mettre à jour un exercice",
+            Description = "Met à jour un exercice existant"
+        )]
+        [SwaggerResponse(StatusCodes.Status204NoContent, "Exercice mis à jour avec succès")]
+        [SwaggerResponse(
+            StatusCodes.Status400BadRequest,
+            "Les données de l'exercice sont invalides ou l'ID ne correspond pas"
+        )]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "Exercice introuvable")]
         public IActionResult PutExercice(int id, [FromBody] Exercice exercice)
         {
             if (id != exercice.Id)
@@ -81,6 +121,12 @@ namespace ApiNORDev.Controllers
 
         // DELETE: api/exercices/{id}
         [HttpDelete("{id}")]
+        [SwaggerOperation(
+            Summary = "Supprimer un exercice",
+            Description = "Supprime un exercice existant à partir de son ID"
+        )]
+        [SwaggerResponse(StatusCodes.Status204NoContent, "Exercice supprimé avec succès")]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "Exercice introuvable")]
         public IActionResult DeleteExercice(int id)
         {
             var exercice = _context.Exercices.Find(id);

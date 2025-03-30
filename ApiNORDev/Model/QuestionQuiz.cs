@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using ApiNORDev.Dto;
 
 namespace ApiNORDev.Model
 {
@@ -10,14 +11,16 @@ namespace ApiNORDev.Model
             get { return _id; }
             set
             {
+                // On s'assure que l'identifiant du client est un entier positif
                 if (value <= 0 || !int.TryParse(value.ToString(), out _id))
                 {
-                    throw new ArgumentException("L'identifiant doit être un entier positif");
+                    throw new ArgumentException(
+                        "La valeur de l'identifiant doit être un entier positif"
+                    );
                 }
                 _id = value;
             }
         }
-
         public string Question { get; set; } = null!;
 
         public List<Option> Options { get; set; } = new();

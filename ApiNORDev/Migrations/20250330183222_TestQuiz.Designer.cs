@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ApiNORDev.Migrations
 {
     [DbContext(typeof(ApiNORDevContext))]
-    [Migration("20250325153105_Quiz")]
-    partial class Quiz
+    [Migration("20250330183222_TestQuiz")]
+    partial class TestQuiz
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -98,7 +98,7 @@ namespace ApiNORDev.Migrations
                     b.Property<bool>("EstCorrecte")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("QuestionQuizId")
+                    b.Property<int>("QuestionQuizId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Texte")
@@ -118,9 +118,6 @@ namespace ApiNORDev.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("BonneReponse")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Explication")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -129,9 +126,28 @@ namespace ApiNORDev.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("QuizId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("QuizId");
+
                     b.ToTable("QuestionsQuiz");
+                });
+
+            modelBuilder.Entity("ApiNORDev.Model.Quiz", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Titre")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Quizzes");
                 });
 
             modelBuilder.Entity("ApiNORDev.Model.Utilisateur", b =>
@@ -166,14 +182,30 @@ namespace ApiNORDev.Migrations
 
             modelBuilder.Entity("ApiNORDev.Model.Option", b =>
                 {
-                    b.HasOne("ApiNORDev.Model.QuestionQuiz", null)
+                    b.HasOne("ApiNORDev.Model.QuestionQuiz", "QuestionQuiz")
                         .WithMany("Options")
-                        .HasForeignKey("QuestionQuizId");
+                        .HasForeignKey("QuestionQuizId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("QuestionQuiz");
+                });
+
+            modelBuilder.Entity("ApiNORDev.Model.QuestionQuiz", b =>
+                {
+                    b.HasOne("ApiNORDev.Model.Quiz", null)
+                        .WithMany("QuestionsQuiz")
+                        .HasForeignKey("QuizId");
                 });
 
             modelBuilder.Entity("ApiNORDev.Model.QuestionQuiz", b =>
                 {
                     b.Navigation("Options");
+                });
+
+            modelBuilder.Entity("ApiNORDev.Model.Quiz", b =>
+                {
+                    b.Navigation("QuestionsQuiz");
                 });
 #pragma warning restore 612, 618
         }
