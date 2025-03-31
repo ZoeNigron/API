@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ApiNORDev.Migrations
 {
     [DbContext(typeof(ApiNORDevContext))]
-    [Migration("20250330183222_TestQuiz")]
+    [Migration("20250331154444_TestQuiz")]
     partial class TestQuiz
     {
         /// <inheritdoc />
@@ -126,7 +126,7 @@ namespace ApiNORDev.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("QuizId")
+                    b.Property<int>("QuizId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
@@ -143,6 +143,7 @@ namespace ApiNORDev.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Titre")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -193,9 +194,13 @@ namespace ApiNORDev.Migrations
 
             modelBuilder.Entity("ApiNORDev.Model.QuestionQuiz", b =>
                 {
-                    b.HasOne("ApiNORDev.Model.Quiz", null)
+                    b.HasOne("ApiNORDev.Model.Quiz", "Quiz")
                         .WithMany("QuestionsQuiz")
-                        .HasForeignKey("QuizId");
+                        .HasForeignKey("QuizId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Quiz");
                 });
 
             modelBuilder.Entity("ApiNORDev.Model.QuestionQuiz", b =>

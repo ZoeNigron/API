@@ -73,7 +73,7 @@ namespace ApiNORDev.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Titre = table.Column<string>(type: "TEXT", nullable: true)
+                    Titre = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -105,7 +105,7 @@ namespace ApiNORDev.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Question = table.Column<string>(type: "TEXT", nullable: false),
                     Explication = table.Column<string>(type: "TEXT", nullable: false),
-                    QuizId = table.Column<int>(type: "INTEGER", nullable: true)
+                    QuizId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -114,7 +114,8 @@ namespace ApiNORDev.Migrations
                         name: "FK_QuestionsQuiz_Quizzes_QuizId",
                         column: x => x.QuizId,
                         principalTable: "Quizzes",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(

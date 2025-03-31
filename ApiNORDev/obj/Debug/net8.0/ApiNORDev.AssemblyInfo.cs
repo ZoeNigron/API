@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ApiNORDev")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a193adca3238ca62eb3789fdaf6f1a869341c3ec")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8c83c32f6d78296013378ebd7793c3506d410515")]
 [assembly: System.Reflection.AssemblyProductAttribute("ApiNORDev")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ApiNORDev")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

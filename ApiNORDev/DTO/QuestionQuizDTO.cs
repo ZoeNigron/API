@@ -20,6 +20,11 @@ namespace ApiNORDev.Dto
         [JsonPropertyName("explication")]
         public string Explication { get; set; } = null!;
 
+        // Ajouter QuizId dans le DTO pour l'envoyer via l'API
+        [JsonPropertyName("quizId")]
+        public int QuizId { get; set; }
+
+        // Liste des options associées à la question
         [JsonIgnore]
         [JsonPropertyName("options")]
         public List<OptionDTO> Options { get; set; } = new List<OptionDTO>();
@@ -31,7 +36,7 @@ namespace ApiNORDev.Dto
             Id = questionQuiz.Id;
             Question = questionQuiz.Question;
             Explication = questionQuiz.Explication;
-            // Convertir les options associées en OptionDTO
+            QuizId = questionQuiz.QuizId;
             Options = questionQuiz.Options.Select(o => new OptionDTO(o)).ToList();
         }
     }

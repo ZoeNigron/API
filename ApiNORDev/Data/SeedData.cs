@@ -14,13 +14,13 @@ namespace ApiNORDev.Data
 
             if (
                 context.Utilisateurs.Any()
-                & context.Astuces.Any()
-                & context.Competences.Any()
-                & context.Exercices.Any()
-                & context.Lecons.Any()
-                & context.QuestionsQuiz.Any()
-                & context.Options.Any()
-                & context.Quizzes.Any()
+                && context.Astuces.Any()
+                && context.Competences.Any()
+                && context.Exercices.Any()
+                && context.Lecons.Any()
+                && context.QuestionsQuiz.Any()
+                && context.Options.Any()
+                && context.Quizzes.Any()
             )
             {
                 return;
@@ -141,11 +141,19 @@ namespace ApiNORDev.Data
 
             context.Lecons.AddRange(lecons);
 
+            // Création du quiz
+            var quiz = new Quiz { Titre = "Apprendre à évaluer les distances" };
+
+            context.Quizzes.Add(quiz);
+            context.SaveChanges(); // Sauvegarder le quiz avant de l'utiliser dans les questions
+
+            // Création des questions et association au quiz
             var question1 = new QuestionQuiz
             {
                 Question = "Pourquoi est-il important d'apprendre à évaluer les distances ?",
                 Explication =
                     "Apprendre à évaluer les distances améliore la capacité à se repérer dans l'espace, ce qui est essentiel pour l'orientation.",
+                QuizId = quiz.Id, // Association au quiz
             };
 
             var question2 = new QuestionQuiz
@@ -154,6 +162,7 @@ namespace ApiNORDev.Data
                     "Quelle marge de précision est-elle pertinente pour estimer une distance ?",
                 Explication =
                     "Une estimation précise à +/- 10 mètres est généralement suffisante pour la plupart des activités de navigation.",
+                QuizId = quiz.Id, // Association au quiz
             };
 
             var question3 = new QuestionQuiz
@@ -161,10 +170,10 @@ namespace ApiNORDev.Data
                 Question = "Qu'est-ce qu'une bonne estimation des distances permet de faire ?",
                 Explication =
                     "Une bonne estimation des distances permet de mieux s'orienter et d'éviter de se perdre en estimant les intersections.",
+                QuizId = quiz.Id, // Association au quiz
             };
 
             context.QuestionsQuiz.AddRange(question1, question2, question3);
-
             context.SaveChanges();
 
             Console.WriteLine($"Question 1 ID: {question1.Id}");
@@ -231,16 +240,17 @@ namespace ApiNORDev.Data
                 EstCorrecte = false,
             };
 
-            context.Options.AddRange(option1, option2, option3, option4, option5, option6);
-            context.SaveChanges();
-
-            var quiz = new Quiz
-            {
-                Titre = "Apprendre à évaluer les distances",
-                QuestionQuizIds = new List<int> { question1.Id, question2.Id, question3.Id },
-            };
-
-            context.Quizzes.Add(quiz);
+            context.Options.AddRange(
+                option1,
+                option2,
+                option3,
+                option4,
+                option5,
+                option6,
+                option7,
+                option8,
+                option9
+            );
             context.SaveChanges();
         }
     }

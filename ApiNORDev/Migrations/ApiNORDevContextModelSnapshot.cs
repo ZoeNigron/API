@@ -123,7 +123,12 @@ namespace ApiNORDev.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("QuizId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("QuizId");
 
                     b.ToTable("QuestionsQuiz");
                 });
@@ -133,10 +138,6 @@ namespace ApiNORDev.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
-
-                    b.PrimitiveCollection<string>("QuestionQuizIds")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
 
                     b.Property<string>("Titre")
                         .IsRequired()
@@ -190,7 +191,23 @@ namespace ApiNORDev.Migrations
 
             modelBuilder.Entity("ApiNORDev.Model.QuestionQuiz", b =>
                 {
+                    b.HasOne("ApiNORDev.Model.Quiz", "Quiz")
+                        .WithMany("QuestionsQuiz")
+                        .HasForeignKey("QuizId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Quiz");
+                });
+
+            modelBuilder.Entity("ApiNORDev.Model.QuestionQuiz", b =>
+                {
                     b.Navigation("Options");
+                });
+
+            modelBuilder.Entity("ApiNORDev.Model.Quiz", b =>
+                {
+                    b.Navigation("QuestionsQuiz");
                 });
 #pragma warning restore 612, 618
         }

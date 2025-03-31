@@ -11,8 +11,8 @@ namespace ApiNORDev.Model
 
         public string Titre { get; set; } = null!;
 
-        // Liste des IDs des questions associées au quiz
-        public List<int> QuestionQuizIds { get; set; } = new List<int>();
+        // Navigation vers les questions
+        public List<QuestionQuiz> QuestionsQuiz { get; set; } = new List<QuestionQuiz>();
 
         public Quiz() { }
 
@@ -20,7 +20,7 @@ namespace ApiNORDev.Model
         {
             Id = quizDTO.Id;
             Titre = quizDTO.Titre;
-            QuestionQuizIds = quizDTO.QuestionsQuiz.Select(q => q.Id).ToList();
+            QuestionsQuiz = quizDTO.QuestionsQuiz.Select(q => new QuestionQuiz(q)).ToList();
         }
     }
 }
