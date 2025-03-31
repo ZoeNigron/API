@@ -11,7 +11,6 @@ namespace ApiNORDev.Model
 
         public string Titre { get; set; } = null!;
 
-        // Navigation vers les questions
         public List<QuestionQuiz> QuestionsQuiz { get; set; } = new List<QuestionQuiz>();
 
         public Quiz() { }

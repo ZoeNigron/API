@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ApiNORDev.Migrations
 {
     [DbContext(typeof(ApiNORDevContext))]
-    [Migration("20250331154444_TestQuiz")]
+    [Migration("20250331161444_TestQuiz")]
     partial class TestQuiz
     {
         /// <inheritdoc />

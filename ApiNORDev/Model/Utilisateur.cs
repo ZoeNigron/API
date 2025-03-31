@@ -1,6 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using System.Security.Cryptography;
-using System.Text;
 using ApiNORDev.Dto;
 
 namespace ApiNORDev.Model

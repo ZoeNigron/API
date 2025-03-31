@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using ApiNORDev.Dto;
 
 namespace ApiNORDev.Model
