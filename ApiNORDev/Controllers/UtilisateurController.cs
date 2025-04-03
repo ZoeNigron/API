@@ -140,7 +140,7 @@ namespace ApiNORDev.Controllers
         [HttpPut("{id}")]
         [SwaggerOperation(
             Summary = "Mettre à jour un utilisateur",
-            Description = "Modifie un utilisateur existant"
+            Description = "Modifie un utilisateur existant, et ajoute des leçons à la liste des leçons validées"
         )]
         [SwaggerResponse(
             StatusCodes.Status200OK,
@@ -169,15 +169,30 @@ namespace ApiNORDev.Controllers
                 return NotFound("L'utilisateur avec l'ID donné n'existe pas.");
             }
 
+            // Mise à jour des informations de l'utilisateur
             utilisateur.Nom = utilisateurDto.Nom;
             utilisateur.Prenom = utilisateurDto.Prenom;
             utilisateur.Email = utilisateurDto.Email;
 
+            // Mise à jour du mot de passe si fourni
             if (!string.IsNullOrEmpty(utilisateurDto.MotDePasse))
             {
                 utilisateur.MotDePasse = utilisateurDto.MotDePasse;
             }
 
+            // Ajout des leçons validées (s'il y en a dans la requête)
+            if (utilisateurDto.LeconsValidees != null)
+            {
+                foreach (var leconId in utilisateurDto.LeconsValidees)
+                {
+                    if (leconId > 0 && !utilisateur.LeconsValidees.Contains(leconId))
+                    {
+                        utilisateur.LeconsValidees.Add(leconId);
+                    }
+                }
+            }
+
+            // Enregistrement des modifications
             _context.Entry(utilisateur).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
@@ -201,47 +216,6 @@ namespace ApiNORDev.Controllers
             await _context.SaveChangesAsync();
 
             return Ok();
-        }
-
-        [HttpPost("updateScore")]
-        [SwaggerOperation(
-            Summary = "Mettre à jour le score d'un utilisateur",
-            Description = "Ajoute un score à un utilisateur"
-        )]
-        [SwaggerResponse(
-            StatusCodes.Status200OK,
-            "Score mis à jour avec succès",
-            typeof(Utilisateur)
-        )]
-        [SwaggerResponse(StatusCodes.Status404NotFound, "Utilisateur introuvable")]
-        public async Task<IActionResult> UpdateScore(int userId, int score)
-        {
-            var utilisateur = await _context.Utilisateurs.FirstOrDefaultAsync(u => u.Id == userId);
-            if (utilisateur == null)
-            {
-                return NotFound("Utilisateur non trouvé");
-            }
-
-            utilisateur.Score += score;
-            _context.SaveChanges();
-
-            return Ok(utilisateur);
-        }
-
-        [HttpGet("topScores")]
-        [SwaggerOperation(
-            Summary = "Obtenir les meilleurs scores",
-            Description = "Récupère les 10 meilleurs scores des utilisateurs"
-        )]
-        [SwaggerResponse(
-            StatusCodes.Status200OK,
-            "Top scores récupérés avec succès",
-            typeof(IEnumerable<Utilisateur>)
-        )]
-        public IActionResult GetTopScores()
-        {
-            var topScores = _context.Utilisateurs.OrderByDescending(u => u.Score).Take(10).ToList();
-            return Ok(topScores);
         }
     }
 }

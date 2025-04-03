@@ -288,13 +288,13 @@ namespace ApiNORDev.Data
             var option10 = new Option
             {
                 QuestionQuizId = question4.Id,
-                Texte = "Nord, Sud, Est, Ouest",
-                EstCorrecte = true,
+                Texte = "Nord, Nord-Est, Ouest, Sud",
+                EstCorrecte = false,
             };
             var option11 = new Option
             {
                 QuestionQuizId = question4.Id,
-                Texte = "Nord, Est, Ouest, Sud",
+                Texte = "Nord, Sud, Est, Ouest",
                 EstCorrecte = true,
             };
             var option12 = new Option

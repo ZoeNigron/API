@@ -19,7 +19,7 @@ namespace ApiNORDev.Model
         [Required]
         public string MotDePasse { get; set; } = string.Empty;
 
-        public int Score { get; set; } = 0;
+        public List<int> LeconsValidees { get; set; } = new List<int>();
 
         public Utilisateur() { }
 
@@ -30,7 +30,6 @@ namespace ApiNORDev.Model
             Prenom = dto.Prenom;
             Email = dto.Email;
             MotDePasse = dto.MotDePasse ?? "";
-            Score = dto.Score;
         }
     }
 }

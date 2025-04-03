@@ -23,6 +23,9 @@ namespace ApiNORDev.Dto
         [JsonPropertyName("score")]
         public int Score { get; set; }
 
+        [JsonPropertyName("leconsvalidees")]
+        public List<int> LeconsValidees { get; set; } = new List<int>();
+
         public UtilisateurDTO() { }
 
         public UtilisateurDTO(Utilisateur utilisateur)
@@ -32,7 +35,7 @@ namespace ApiNORDev.Dto
             Prenom = utilisateur.Prenom;
             Email = utilisateur.Email;
             MotDePasse = utilisateur.MotDePasse;
-            Score = utilisateur.Score;
+            LeconsValidees = utilisateur.LeconsValidees ?? new List<int>();
         }
     }
 }
