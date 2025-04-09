@@ -18,7 +18,6 @@ namespace ApiNORDev.Controllers
             _context = context;
         }
 
-        // 🔹 1. Récupérer un quiz par ID
         [HttpGet("{id}")]
         [SwaggerOperation(
             Summary = "Récupérer un quiz par ID",
@@ -63,7 +62,6 @@ namespace ApiNORDev.Controllers
             return Ok(quiz);
         }
 
-        // 🔹 2. Récupérer tous les quiz
         [HttpGet]
         [SwaggerOperation(
             Summary = "Récupérer tous les quiz",
@@ -88,103 +86,99 @@ namespace ApiNORDev.Controllers
             return Ok(quizzes.Select(q => new QuizDTO(q)).ToList());
         }
 
-        // 🔹 3. Créer un nouveau quiz
-        [HttpPost]
-        [SwaggerOperation(
-            Summary = "Créer un nouveau quiz",
-            Description = "Ajoute un quiz avec ses questions et options associées."
-        )]
-        [SwaggerResponse(StatusCodes.Status201Created, "Quiz créé avec succès", typeof(QuizDTO))]
-        [SwaggerResponse(StatusCodes.Status400BadRequest, "Données invalides")]
-        public async Task<ActionResult<QuizDTO>> CreateQuiz([FromBody] QuizDTO quizDTO)
+        public class QuizInput
         {
-            if (quizDTO == null || string.IsNullOrWhiteSpace(quizDTO.Titre))
-                return BadRequest("Les informations du quiz sont invalides.");
+            public string Titre { get; set; } = null!;
+            public List<int> QuestionIds { get; set; } = new();
+        }
 
-            var quiz = new Quiz
-            {
-                Titre = quizDTO.Titre,
-                QuestionsQuiz = quizDTO
-                    .QuestionsQuiz?.Select(q => new QuestionQuiz
-                    {
-                        Question = q.Question,
-                        Explication = q.Explication,
-                        Options = new List<Option>(),
-                    })
-                    .ToList(),
-            };
+        [HttpPost]
+        [SwaggerOperation(Summary = "Créer un nouveau quiz")]
+        public async Task<IActionResult> CreateQuiz([FromBody] QuizInput input)
+        {
+            var questions = await _context
+                .QuestionsQuiz.Include(q => q.Options)
+                .Where(q => input.QuestionIds.Contains(q.Id))
+                .ToListAsync();
+
+            if (questions.Count != input.QuestionIds.Count)
+                return BadRequest("Une ou plusieurs questions n'existent pas.");
+
+            var quiz = new Quiz { Titre = input.Titre, QuestionsQuiz = questions };
 
             _context.Quizzes.Add(quiz);
             await _context.SaveChangesAsync();
 
-            foreach (var questionDTO in quizDTO.QuestionsQuiz)
+            var result = new
             {
-                var questionEntity = quiz.QuestionsQuiz.FirstOrDefault(q =>
-                    q.Question == questionDTO.Question
-                );
-                if (questionEntity != null)
+                quiz.Id,
+                quiz.Titre,
+                QuestionsQuiz = questions.Select(q => new
                 {
-                    questionEntity.Options = questionDTO
-                        .Options.Select(o => new Option
-                        {
-                            Texte = o.Texte,
-                            EstCorrecte = o.EstCorrecte,
-                            QuestionQuizId = questionEntity.Id,
-                        })
-                        .ToList();
-                }
-            }
+                    q.Id,
+                    q.Question,
+                    q.Explication,
+                    q.QuizId,
+                    Options = q.Options.Select(o => new
+                    {
+                        o.Id,
+                        o.Texte,
+                        o.EstCorrecte,
+                        o.QuestionQuizId,
+                    }),
+                }),
+            };
 
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetQuiz), new { id = quiz.Id }, new QuizDTO(quiz));
+            return CreatedAtAction(nameof(GetQuiz), new { id = quiz.Id }, result);
         }
 
-        // 🔹 4. Modifier un quiz existant
         [HttpPut("{id}")]
-        [SwaggerOperation(
-            Summary = "Mettre à jour un quiz",
-            Description = "Modifie un quiz existant avec ses questions et options."
-        )]
-        [SwaggerResponse(StatusCodes.Status200OK, "Quiz mis à jour avec succès", typeof(QuizDTO))]
-        [SwaggerResponse(StatusCodes.Status404NotFound, "Quiz introuvable")]
-        public async Task<IActionResult> UpdateQuiz(int id, [FromBody] QuizDTO quizDTO)
+        [SwaggerOperation(Summary = "Modifier un quiz existant")]
+        public async Task<IActionResult> UpdateQuiz(int id, [FromBody] QuizInput input)
         {
-            if (id != quizDTO.Id)
-                return BadRequest("L'ID du quiz ne correspond pas.");
-
-            var existingQuiz = await _context
+            var quiz = await _context
                 .Quizzes.Include(q => q.QuestionsQuiz)
-                .ThenInclude(q => q.Options)
                 .FirstOrDefaultAsync(q => q.Id == id);
 
-            if (existingQuiz == null)
-                return NotFound($"Le quiz avec l'ID {id} est introuvable.");
+            if (quiz == null)
+                return NotFound($"Quiz ID {id} non trouvé.");
 
-            existingQuiz.Titre = quizDTO.Titre;
+            var questions = await _context
+                .QuestionsQuiz.Include(q => q.Options)
+                .Where(q => input.QuestionIds.Contains(q.Id))
+                .ToListAsync();
 
-            _context.QuestionsQuiz.RemoveRange(existingQuiz.QuestionsQuiz);
+            if (questions.Count != input.QuestionIds.Count)
+                return BadRequest("Une ou plusieurs questions n'existent pas.");
 
-            existingQuiz.QuestionsQuiz = quizDTO
-                .QuestionsQuiz?.Select(q => new QuestionQuiz
-                {
-                    Question = q.Question,
-                    Explication = q.Explication,
-                    Options = q
-                        .Options.Select(o => new Option
-                        {
-                            Texte = o.Texte,
-                            EstCorrecte = o.EstCorrecte,
-                        })
-                        .ToList(),
-                })
-                .ToList();
+            quiz.Titre = input.Titre;
+            quiz.QuestionsQuiz = questions;
 
             await _context.SaveChangesAsync();
-            return Ok(new QuizDTO(existingQuiz));
+
+            var result = new
+            {
+                quiz.Id,
+                quiz.Titre,
+                QuestionsQuiz = questions.Select(q => new
+                {
+                    q.Id,
+                    q.Question,
+                    q.Explication,
+                    q.QuizId,
+                    Options = q.Options.Select(o => new
+                    {
+                        o.Id,
+                        o.Texte,
+                        o.EstCorrecte,
+                        o.QuestionQuizId,
+                    }),
+                }),
+            };
+
+            return Ok(result);
         }
 
-        // 🔹 5. Supprimer un quiz
         [HttpDelete("{id}")]
         [SwaggerOperation(
             Summary = "Supprimer un quiz",

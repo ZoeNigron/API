@@ -12,7 +12,7 @@ public class ApiNORDevContext : DbContext
     public DbSet<Option> Options { get; set; }
     public DbSet<Quiz> Quizzes { get; set; }
 
-    public string DbPath { get; private set; }
+    public string? DbPath { get; private set; }
 
     public ApiNORDevContext(DbContextOptions<ApiNORDevContext> options)
         : base(options) { }

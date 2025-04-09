@@ -10,8 +10,8 @@ namespace ApiNORDev.Model
         public string? Titre { get; set; }
         public string? Description { get; set; }
         public string? Lien { get; set; }
-
-        // mettre image
+        public string? Icone { get; set; }
+        public string? CategorieIcone { get; set; }
 
         public Competence() { }
 
@@ -21,6 +21,8 @@ namespace ApiNORDev.Model
             Titre = dto.Titre;
             Description = dto.Description;
             Lien = dto.Lien;
+            Icone = dto.Icone;
+            CategorieIcone = dto.CategorieIcone;
         }
     }
 }

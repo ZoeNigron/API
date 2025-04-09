@@ -1,11 +1,19 @@
 {
   "Version": 1,
-  "Hash": "sxvQVD8EUV4jVV7ew76TVQYMv2BAMyJsnmtLVdzcLg4=",
+  "Hash": "Ej5w5SavJ/VekmuZdjcnpMOphX6tGNqJXnuRdMU6HXk=",
   "Source": "ApiNORDev",
   "BasePath": "_content/ApiNORDev",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "ApiNORDev\\wwwroot",
+      "Source": "ApiNORDev",
+      "ContentRoot": "C:\\Users\\zoeni\\Documents\\NORD\\API\\ApiNORDev\\wwwroot\\",
+      "BasePath": "_content/ApiNORDev",
+      "Pattern": "**"
+    }
+  ],
   "Assets": []
 }

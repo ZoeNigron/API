@@ -20,9 +20,6 @@ namespace ApiNORDev.Dto
         [JsonPropertyName("motdepasse")]
         public string? MotDePasse { get; set; }
 
-        [JsonPropertyName("score")]
-        public int Score { get; set; }
-
         [JsonPropertyName("leconsvalidees")]
         public List<int> LeconsValidees { get; set; } = new List<int>();
 

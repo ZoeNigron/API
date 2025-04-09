@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ApiNORDev.Migrations
 {
     [DbContext(typeof(ApiNORDevContext))]
-    [Migration("20250403180627_LeconUtilisateur")]
-    partial class LeconUtilisateur
+    [Migration("20250409125722_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -38,7 +38,13 @@ namespace ApiNORDev.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("CategorieIcone")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Icone")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Lien")
@@ -84,12 +90,7 @@ namespace ApiNORDev.Migrations
                     b.Property<string>("Titre")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("UtilisateurId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UtilisateurId");
 
                     b.ToTable("Lecons");
                 });
@@ -166,6 +167,10 @@ namespace ApiNORDev.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.PrimitiveCollection<string>("LeconsValidees")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("MotDePasse")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -181,13 +186,6 @@ namespace ApiNORDev.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Utilisateurs");
-                });
-
-            modelBuilder.Entity("ApiNORDev.Model.Lecon", b =>
-                {
-                    b.HasOne("ApiNORDev.Model.Utilisateur", null)
-                        .WithMany("Lecons")
-                        .HasForeignKey("UtilisateurId");
                 });
 
             modelBuilder.Entity("ApiNORDev.Model.Option", b =>
@@ -220,11 +218,6 @@ namespace ApiNORDev.Migrations
             modelBuilder.Entity("ApiNORDev.Model.Quiz", b =>
                 {
                     b.Navigation("QuestionsQuiz");
-                });
-
-            modelBuilder.Entity("ApiNORDev.Model.Utilisateur", b =>
-                {
-                    b.Navigation("Lecons");
                 });
 #pragma warning restore 612, 618
         }

@@ -5,7 +5,7 @@
 namespace ApiNORDev.Migrations
 {
     /// <inheritdoc />
-    public partial class TestQuiz : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -31,7 +31,9 @@ namespace ApiNORDev.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Titre = table.Column<string>(type: "TEXT", nullable: true),
                     Description = table.Column<string>(type: "TEXT", nullable: true),
-                    Lien = table.Column<string>(type: "TEXT", nullable: true)
+                    Lien = table.Column<string>(type: "TEXT", nullable: true),
+                    Icone = table.Column<string>(type: "TEXT", nullable: true),
+                    CategorieIcone = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -90,7 +92,7 @@ namespace ApiNORDev.Migrations
                     Prenom = table.Column<string>(type: "TEXT", nullable: false),
                     Email = table.Column<string>(type: "TEXT", nullable: false),
                     MotDePasse = table.Column<string>(type: "TEXT", nullable: false),
-                    Score = table.Column<int>(type: "INTEGER", nullable: false)
+                    LeconsValidees = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {

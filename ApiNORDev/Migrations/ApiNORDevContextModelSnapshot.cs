@@ -35,7 +35,13 @@ namespace ApiNORDev.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("CategorieIcone")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Icone")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Lien")

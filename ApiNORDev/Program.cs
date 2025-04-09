@@ -22,7 +22,12 @@ builder.Services.AddCors(options =>
         policy =>
         {
             policy
-                .WithOrigins("http://localhost:3000", "http://172.20.10.2:3000")
+                .WithOrigins(
+                    "http://localhost:3000",
+                    "http://172.20.10.2:3000",
+                    "http://192.168.1.101:3000",
+                    "https://nordev.netlify.app:3000"
+                )
                 .AllowAnyHeader()
                 .AllowAnyMethod();
         }
@@ -56,54 +61,3 @@ app.MapControllers();
 
 // Démarrer l'application
 app.Run("http://0.0.0.0:5039");
-
-/*using ApiNORDev.Data;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
-
-var builder = WebApplication.CreateBuilder(args);
-
-// 📌 Configuration de la base de données avec la chaîne de connexion
-builder.Services.AddDbContext<ApiNORDevContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"))
-);
-
-// 📌 Ajouter les services de l'API
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-
-// 📌 Configurer Swagger avec une version valide d'OpenAPI
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "API NORDev", Version = "v1" });
-    c.EnableAnnotations(); // Permet d’utiliser des annotations Swagger
-});
-
-// 📌 Construire l'application
-var app = builder.Build();
-
-// 📌 Appliquer les migrations et initialiser la base de données
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-    var context = services.GetRequiredService<ApiNORDevContext>();
-
-    context.Database.Migrate(); // Appliquer les migrations
-
-    SeedData.Init(services); // Initialisation des données
-}
-
-// 📌 Activer Swagger uniquement en mode développement
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
-// 📌 Middleware
-app.UseHttpsRedirection();
-app.UseAuthorization();
-app.MapControllers();
-
-// 📌 Lancer l'application
-app.Run();*/

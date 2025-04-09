@@ -31,7 +31,15 @@ namespace ApiNORDev.Data
                 MotDePasse = "1234",
             };
 
-            context.Utilisateurs.Add(utilisateur1);
+            var utilisateur2 = new Utilisateur
+            {
+                Nom = "Semal",
+                Prenom = "Catherine",
+                Email = "csemal@ensc.fr",
+                MotDePasse = "chat",
+            };
+
+            context.Utilisateurs.AddRange(utilisateur1, utilisateur2);
 
             var astuces = new[]
             {
@@ -91,19 +99,25 @@ namespace ApiNORDev.Data
                 {
                     Titre = "Compétence 1",
                     Description = "Évaluer les distances",
-                    Lien = "/evaluer-les-distances",
+                    Lien = "/quiz/:type",
+                    Icone = "FaRulerHorizontal",
+                    CategorieIcone = "fa",
                 },
                 new Competence
                 {
                     Titre = "Compétence 2",
                     Description = "S'orienter avec les points cardinaux",
                     Lien = "/page-non-developpee",
+                    Icone = "FaRegCompass",
+                    CategorieIcone = "fa",
                 },
                 new Competence
                 {
                     Titre = "Compétence 3",
                     Description = "Distances et points cardinaux",
                     Lien = "/page-non-developpee",
+                    Icone = "GiEarthAmerica",
+                    CategorieIcone = "gi",
                 },
             };
 
