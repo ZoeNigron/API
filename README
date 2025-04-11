@@ -1,0 +1,23 @@
+# NORD - Back-end (API)
+
+Ce dépôt contient l’API REST développée pour mon projet **NORD**, à destination de l’application front-end.
+
+Elle permet de gérer :
+- les utilisateurs et leur progression,
+- les leçons,
+- les exercices,
+- les compétences,
+- les quiz,
+- les astuces quotidiennes.
+
+L’API est conçue avec **ASP.NET Core** et utilise **SQLite** comme base de données, avec **Entity Framework Core** pour la gestion des entités.
+
+**Technologies principales** :
+- ASP.NET Core 8
+- Entity Framework Core
+- SQLite
+- Swagger
+
+La notice d’installation complète se trouve dans le **rapport final** du projet.
+
+Zoé Nigron

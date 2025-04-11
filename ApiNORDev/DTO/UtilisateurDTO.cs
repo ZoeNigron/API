@@ -17,7 +17,7 @@ namespace ApiNORDev.Dto
         [JsonPropertyName("email")]
         public string Email { get; set; } = string.Empty;
 
-        [JsonPropertyName("motdepasse")]
+        [JsonIgnore]
         public string? MotDePasse { get; set; }
 
         [JsonPropertyName("leconsvalidees")]
@@ -31,7 +31,6 @@ namespace ApiNORDev.Dto
             Nom = utilisateur.Nom;
             Prenom = utilisateur.Prenom;
             Email = utilisateur.Email;
-            MotDePasse = utilisateur.MotDePasse;
             LeconsValidees = utilisateur.LeconsValidees ?? new List<int>();
         }
     }

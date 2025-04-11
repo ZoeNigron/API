@@ -9,7 +9,7 @@ namespace ApiNORDev.Model
         [Key]
         public int Id { get; set; }
 
-        public string Titre { get; set; } = null!;
+        public string? Titre { get; set; } = null!;
 
         public List<QuestionQuiz> QuestionsQuiz { get; set; } = new List<QuestionQuiz>();
 

@@ -6,7 +6,7 @@ namespace ApiNORDev.Dto
     public class QuizDTO
     {
         public int Id { get; set; }
-        public string Titre { get; set; }
+        public string? Titre { get; set; }
         public List<QuestionQuizDTO> QuestionsQuiz { get; set; } = new List<QuestionQuizDTO>();
 
         public QuizDTO() { }

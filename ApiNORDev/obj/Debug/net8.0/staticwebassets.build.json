@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Ej5w5SavJ/VekmuZdjcnpMOphX6tGNqJXnuRdMU6HXk=",
+  "Hash": "Xj8IZyvY13SU/iRb4Cz3hfmYjc1G0XKL3sPHVdPTO+M=",
   "Source": "ApiNORDev",
   "BasePath": "_content/ApiNORDev",
   "Mode": "Default",
@@ -15,5 +15,25 @@
       "Pattern": "**"
     }
   ],
-  "Assets": []
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\zoeni\\Documents\\NORD\\API\\ApiNORDev\\wwwroot\\txt",
+      "SourceId": "ApiNORDev",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\zoeni\\Documents\\NORD\\API\\ApiNORDev\\wwwroot\\",
+      "BasePath": "_content/ApiNORDev",
+      "RelativePath": "txt",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\txt"
+    }
+  ]
 }

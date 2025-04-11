@@ -1,1 +1,1 @@
-{"ContentRoots":["C:\\Users\\zoeni\\Documents\\NORD\\API\\ApiNORDev\\wwwroot\\"],"Root":{"Children":null,"Asset":null,"Patterns":[{"ContentRootIndex":0,"Pattern":"**","Depth":0}]}}
+{"ContentRoots":["C:\\Users\\zoeni\\Documents\\NORD\\API\\ApiNORDev\\wwwroot\\"],"Root":{"Children":{"txt":{"Children":null,"Asset":{"ContentRootIndex":0,"SubPath":"txt"},"Patterns":null}},"Asset":null,"Patterns":[{"ContentRootIndex":0,"Pattern":"**","Depth":0}]}}

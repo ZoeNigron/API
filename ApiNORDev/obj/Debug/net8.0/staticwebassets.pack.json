@@ -1,8 +1,8 @@
 {
   "Files": [
     {
-      "Id": "C:\\Users\\zoeni\\Documents\\NORD\\API\\ApiNORDev\\wwwroot\\logo.png",
-      "PackagePath": "staticwebassets\\logo.png"
+      "Id": "C:\\Users\\zoeni\\Documents\\NORD\\API\\ApiNORDev\\wwwroot\\txt",
+      "PackagePath": "staticwebassets"
     },
     {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.ApiNORDev.Microsoft.AspNetCore.StaticWebAssets.props",
