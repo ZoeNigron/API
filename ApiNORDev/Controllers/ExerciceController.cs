@@ -1,6 +1,5 @@
-using System.Collections.Generic;
-using System.Linq;
-using ApiNORDev.Data;
+// Le contrôleur ExerciceController gère les opérations CRUD pour les exercices, telles que la récupération, la création, la mise à jour et la suppression des exercices
+
 using ApiNORDev.Model;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -18,7 +17,7 @@ namespace ApiNORDev.Controllers
             _context = context;
         }
 
-        // GET: api/exercices
+        // récupérer tous les exercices
         [HttpGet]
         [SwaggerOperation(
             Summary = "Liste de tous les exercices",
@@ -41,7 +40,7 @@ namespace ApiNORDev.Controllers
             return Ok(exercices);
         }
 
-        // GET: api/exercices/{id}
+        // récupérer un exercice par son id
         [HttpGet("{id}")]
         [SwaggerOperation(
             Summary = "Récupérer un exercice par ID",
@@ -61,7 +60,7 @@ namespace ApiNORDev.Controllers
             return Ok(exercice);
         }
 
-        // POST: api/exercices
+        // créer un nouvel exercice
         [HttpPost]
         [SwaggerOperation(
             Summary = "Créer un nouvel exercice",
@@ -89,7 +88,7 @@ namespace ApiNORDev.Controllers
             return CreatedAtAction(nameof(GetExercice), new { id = exercice.Id }, exercice);
         }
 
-        // PUT: api/exercices/{id}
+        // mettre à jour un exercice existant
         [HttpPut("{id}")]
         [SwaggerOperation(
             Summary = "Mettre à jour un exercice",
@@ -119,7 +118,7 @@ namespace ApiNORDev.Controllers
             return NoContent();
         }
 
-        // DELETE: api/exercices/{id}
+        // supprimer un exercice par son id
         [HttpDelete("{id}")]
         [SwaggerOperation(
             Summary = "Supprimer un exercice",

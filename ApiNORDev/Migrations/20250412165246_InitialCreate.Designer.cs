@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ApiNORDev.Migrations
 {
     [DbContext(typeof(ApiNORDevContext))]
-    [Migration("20250409125722_InitialCreate")]
+    [Migration("20250412165246_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -149,7 +149,6 @@ namespace ApiNORDev.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Titre")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

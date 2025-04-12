@@ -1,4 +1,5 @@
-using ApiNORDev.Data;
+// Le contrôleur OptionController gère les opérations CRUD pour les options, telles que la récupération, la création, la mise à jour et la suppression d'options
+
 using ApiNORDev.Model;
 using ApiNORDev.Dto;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +19,7 @@ namespace ApiNORDev.Controllers
             _context = context;
         }
 
+        // pour récupérer toutes les options avec leur question associée
         [HttpGet]
         [SwaggerOperation(Summary = "Liste de toutes les options", Description = "Récupère toutes les options avec leur question associée")]
         [SwaggerResponse(StatusCodes.Status200OK, "Liste des options trouvée", typeof(IEnumerable<OptionDTO>))]
@@ -25,7 +27,7 @@ namespace ApiNORDev.Controllers
         public async Task<ActionResult<IEnumerable<OptionDTO>>> GetOptions()
         {
             var options = await _context.Options
-                .Include(o => o.QuestionQuiz)  // 🔥 Assure que la relation est chargée
+                .Include(o => o.QuestionQuiz)
                 .Select(o => new OptionDTO
                 {
                     Id = o.Id,
@@ -42,6 +44,7 @@ namespace ApiNORDev.Controllers
             return Ok(options);
         }
 
+        // pour récupérer une option spécifique par son id, avec la question associée
         [HttpGet("{id}")]
         [SwaggerOperation(Summary = "Récupérer une option par ID", Description = "Renvoie une option spécifique avec sa question associée")]
         [SwaggerResponse(StatusCodes.Status200OK, "Option trouvée", typeof(OptionDTO))]
@@ -49,7 +52,7 @@ namespace ApiNORDev.Controllers
         public async Task<ActionResult<OptionDTO>> GetOption(int id)
         {
             var option = await _context.Options
-                .Include(o => o.QuestionQuiz)  // 🔥 Inclut la question associée
+                .Include(o => o.QuestionQuiz)
                 .SingleOrDefaultAsync(o => o.Id == id);
 
             if (option == null)
@@ -66,6 +69,7 @@ namespace ApiNORDev.Controllers
             });
         }
 
+        // pour ajouter une nouvelle option associée à une question
         [HttpPost]
         [SwaggerOperation(Summary = "Ajouter une option", Description = "Ajoute une nouvelle option liée à une question quiz")]
         [SwaggerResponse(StatusCodes.Status201Created, "Option ajoutée avec succès", typeof(OptionDTO))]
@@ -77,12 +81,14 @@ namespace ApiNORDev.Controllers
                 return BadRequest("L'option ou l'ID de la question est invalide.");
             }
 
+            // pour vérifier si la question associée existe
             var questionExiste = await _context.QuestionsQuiz.AnyAsync(q => q.Id == optionDTO.QuestionQuizId);
             if (!questionExiste)
             {
                 return NotFound($"La question avec l'ID {optionDTO.QuestionQuizId} n'existe pas.");
             }
 
+            // pour créer l'option
             var option = new Option
             {
                 Texte = optionDTO.Texte,
@@ -109,6 +115,7 @@ namespace ApiNORDev.Controllers
             }
         }
 
+        // pour mettre à jour une option existante
         [HttpPut("{id}")]
         [SwaggerOperation(Summary = "Mettre à jour une option", Description = "Modifie une option existante")]
         [SwaggerResponse(StatusCodes.Status200OK, "Option mise à jour avec succès", typeof(OptionDTO))]
@@ -126,14 +133,14 @@ namespace ApiNORDev.Controllers
                 return NotFound($"L'option avec l'ID {id} n'existe pas.");
             }
 
-            // Vérification si la question associée existe bien
+            // vérification si la question associée existe bien
             var questionExiste = await _context.QuestionsQuiz.AnyAsync(q => q.Id == optionDTO.QuestionQuizId);
             if (!questionExiste)
             {
                 return NotFound($"La question avec l'ID {optionDTO.QuestionQuizId} n'existe pas.");
             }
 
-            // Mise à jour des propriétés
+            // mise à jour des propriétés de l'option
             optionExistante.Texte = optionDTO.Texte;
             optionExistante.EstCorrecte = optionDTO.EstCorrecte;
             optionExistante.QuestionQuizId = optionDTO.QuestionQuizId;
@@ -149,6 +156,7 @@ namespace ApiNORDev.Controllers
             }
         }
 
+        // pour supprimer une option
         [HttpDelete("{id}")]
         [SwaggerOperation(Summary = "Supprimer une option", Description = "Supprime une option existante")]
         [SwaggerResponse(StatusCodes.Status200OK, "Option supprimée avec succès")]

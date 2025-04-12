@@ -1,3 +1,6 @@
+// La classe ApiNORDevContext représente le contexte de la base de données, en définissant les DbSet pour toutes les entités
+// Elle configure également la chaîne de connexion SQLite et initialise la base de données si elle n'est pas déjà configurée
+
 using ApiNORDev.Model;
 using Microsoft.EntityFrameworkCore;
 

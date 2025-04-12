@@ -1,3 +1,5 @@
+// Dans ce code, je crée une classe représentant une Competence, qui est liée à son DTO CompetenceDTO
+
 using System.ComponentModel.DataAnnotations;
 using ApiNORDev.Dto;
 

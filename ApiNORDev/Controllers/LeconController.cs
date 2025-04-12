@@ -1,6 +1,5 @@
-using System.Collections.Generic;
-using System.Linq;
-using ApiNORDev.Data;
+// Le contrôleur LeconController gère les opérations CRUD pour les lecons, telles que la récupération, la création, la mise à jour et la suppression de lecons
+
 using ApiNORDev.Model;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -18,7 +17,7 @@ namespace ApiNORDev.Controllers
             _context = context;
         }
 
-        // GET: api/lecons
+        // récupérer toutes les leçons
         [HttpGet]
         [SwaggerOperation(
             Summary = "Liste de toutes les leçons",
@@ -41,7 +40,7 @@ namespace ApiNORDev.Controllers
             return Ok(lecons);
         }
 
-        // GET: api/lecons/{id}
+        // récupérer une leçon par son id
         [HttpGet("{id}")]
         [SwaggerOperation(
             Summary = "Récupérer une leçon par ID",
@@ -61,7 +60,7 @@ namespace ApiNORDev.Controllers
             return Ok(lecon);
         }
 
-        // POST: api/lecons
+        // créer une nouvelle leçon
         [HttpPost]
         [SwaggerOperation(
             Summary = "Créer une nouvelle leçon",
@@ -82,7 +81,7 @@ namespace ApiNORDev.Controllers
             return CreatedAtAction(nameof(GetLecon), new { id = lecon.Id }, lecon);
         }
 
-        // PUT: api/lecons/{id}
+        // mettre à jour une leçon existante
         [HttpPut("{id}")]
         [SwaggerOperation(
             Summary = "Mettre à jour une leçon",
@@ -112,7 +111,7 @@ namespace ApiNORDev.Controllers
             return NoContent();
         }
 
-        // DELETE: api/lecons/{id}
+        // supprimer une leçon par son id
         [HttpDelete("{id}")]
         [SwaggerOperation(
             Summary = "Supprimer une leçon",

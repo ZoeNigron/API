@@ -1,4 +1,5 @@
-using ApiNORDev.Data;
+// Le contrôleur AstuceController gère les opérations CRUD pour les astuces, telles que la récupération, la création, la mise à jour et la suppression des astuces
+
 using ApiNORDev.Dto;
 using ApiNORDev.Model;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +19,7 @@ namespace ApiNORDev.Controllers
             _context = context;
         }
 
-        // GET: api/astuces
+        // récupérer toutes les astuces
         [HttpGet]
         [SwaggerOperation(
             Summary = "Récupérer toutes les astuces",
@@ -39,7 +40,7 @@ namespace ApiNORDev.Controllers
             return Ok(astuces);
         }
 
-        // GET: api/astuces/{id}
+        // récupérer une astuce par son id
         [HttpGet("{id}")]
         [SwaggerOperation(
             Summary = "Récupérer une astuce par ID",
@@ -66,7 +67,7 @@ namespace ApiNORDev.Controllers
             return Ok(astuce);
         }
 
-        // POST: api/astuces
+        // créer une nouvelle astuce
         [HttpPost]
         [SwaggerOperation(
             Summary = "Créer une nouvelle astuce",
@@ -94,7 +95,7 @@ namespace ApiNORDev.Controllers
             return CreatedAtAction(nameof(GetAstuce), new { id = astuce.Id }, astuceDTO);
         }
 
-        // PUT: api/astuces/{id}
+        // mettre à jour une astuce existante
         [HttpPut("{id}")]
         [SwaggerOperation(
             Summary = "Mettre à jour une astuce",
@@ -138,7 +139,7 @@ namespace ApiNORDev.Controllers
             return NoContent();
         }
 
-        // DELETE: api/astuces/{id}
+        // supprimer une astuce par son id
         [HttpDelete("{id}")]
         [SwaggerOperation(
             Summary = "Supprimer une astuce",

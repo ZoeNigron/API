@@ -1,4 +1,5 @@
-using ApiNORDev.Data;
+// Le contrôleur QuestionQuizController gère les opérations CRUD pour les questions des quiz, telles que la récupération, la création, la mise à jour et la suppression de questions
+
 using ApiNORDev.Dto;
 using ApiNORDev.Model;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +19,7 @@ namespace BoutiqueWeb.Controllers
             _context = context;
         }
 
+        // pour récupérer toutes les questions de quiz
         [HttpGet]
         [SwaggerOperation(
             Summary = "Liste de toutes les questions quiz",
@@ -43,6 +45,7 @@ namespace BoutiqueWeb.Controllers
             return Ok(questionQuiz);
         }
 
+        // pour récupérer une question quiz spécifique par son id
         [HttpGet("{id}")]
         [SwaggerOperation(
             Summary = "Récupérer une question quiz par ID",
@@ -68,6 +71,7 @@ namespace BoutiqueWeb.Controllers
             return Ok(new QuestionQuizDTO(questionQuiz));
         }
 
+        // pour ajouter une nouvelle question quiz
         [HttpPost]
         [SwaggerOperation(
             Summary = "Ajouter une nouvelle question quiz",
@@ -108,6 +112,7 @@ namespace BoutiqueWeb.Controllers
             }
         }
 
+        // pour mettre à jour une question quiz existante
         [HttpPut("{id}")]
         [SwaggerOperation(
             Summary = "Mettre à jour une question quiz",
@@ -158,6 +163,7 @@ namespace BoutiqueWeb.Controllers
             return Ok(questionQuizDTO);
         }
 
+        // pour supprimer une question quiz
         [HttpDelete("{id}")]
         [SwaggerOperation(
             Summary = "Supprimer une question quiz",

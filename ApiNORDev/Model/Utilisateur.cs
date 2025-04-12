@@ -1,3 +1,5 @@
+// Dans ce code, je crée une classe représentant une UtilisateurQuiz, qui est liée à son DTO UtilisateurDTO
+
 using System.ComponentModel.DataAnnotations;
 using ApiNORDev.Dto;
 
@@ -30,6 +32,7 @@ namespace ApiNORDev.Model
             Prenom = dto.Prenom;
             Email = dto.Email;
             MotDePasse = dto.MotDePasse ?? "";
+            LeconsValidees = dto.LeconsValidees ?? new List<int>();
         }
     }
 }

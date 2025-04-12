@@ -1,3 +1,5 @@
+// Le contrôleur UtilisateurController gère les opérations CRUD pour les utilisateurs, telles que la récupération, la création, la mise à jour, la connexion et la suppression d'utilisateurs
+
 using ApiNORDev.Dto;
 using ApiNORDev.Model;
 using Microsoft.AspNetCore.Mvc;
@@ -17,6 +19,7 @@ namespace ApiNORDev.Controllers
             _context = context;
         }
 
+        // pour récupérer tous les utilisateurs
         [HttpGet]
         [SwaggerOperation(
             Summary = "Liste de tous les utilisateurs",
@@ -36,6 +39,7 @@ namespace ApiNORDev.Controllers
             return utilisateurs.Any() ? Ok(utilisateurs) : NotFound();
         }
 
+        // pour récupérer un utilisateur par son identifiant
         [HttpGet("{id}")]
         [SwaggerOperation(
             Summary = "Récupérer un utilisateur par ID",
@@ -49,6 +53,7 @@ namespace ApiNORDev.Controllers
             return utilisateur != null ? Ok(new UtilisateurDTO(utilisateur)) : NotFound();
         }
 
+        // pour créer un nouvel utilisateur
         [HttpPost("creer")]
         [SwaggerOperation(
             Summary = "Créer un utilisateur",
@@ -100,6 +105,7 @@ namespace ApiNORDev.Controllers
             );
         }
 
+        // connexion de l'utilisateur
         [HttpPost("connecter")]
         [SwaggerOperation(
             Summary = "Connexion utilisateur",
@@ -137,10 +143,11 @@ namespace ApiNORDev.Controllers
             );
         }
 
+        // pour mettre à jour les informations d'un utilisateur
         [HttpPut("{id}")]
         [SwaggerOperation(
             Summary = "Mettre à jour un utilisateur",
-            Description = "Modifie un utilisateur existant, et ajoute des leçons à la liste des leçons validées"
+            Description = "Modifie un utilisateur existant, et remplace la liste des leçons validées"
         )]
         [SwaggerResponse(
             StatusCodes.Status200OK,
@@ -169,36 +176,32 @@ namespace ApiNORDev.Controllers
                 return NotFound("L'utilisateur avec l'ID donné n'existe pas.");
             }
 
-            // Mise à jour des informations de l'utilisateur
+            // mise à jour des informations de l'utilisateur
             utilisateur.Nom = utilisateurDto.Nom;
             utilisateur.Prenom = utilisateurDto.Prenom;
             utilisateur.Email = utilisateurDto.Email;
 
-            // Mise à jour du mot de passe si fourni
-            if (!string.IsNullOrEmpty(utilisateurDto.MotDePasse))
+            // mise à jour du mot de passe si fourni
+            if (
+                !string.IsNullOrEmpty(utilisateurDto.MotDePasse)
+                && utilisateurDto.MotDePasse != "******"
+            )
             {
                 utilisateur.MotDePasse = utilisateurDto.MotDePasse;
             }
 
-            // Ajout des leçons validées (s'il y en a dans la requête)
-            if (utilisateurDto.LeconsValidees != null)
-            {
-                foreach (var leconId in utilisateurDto.LeconsValidees)
-                {
-                    if (leconId > 0 && !utilisateur.LeconsValidees.Contains(leconId))
-                    {
-                        utilisateur.LeconsValidees.Add(leconId);
-                    }
-                }
-            }
+            // on fusionne les leçons validées : on garde les anciennes leçons et on ajoute les nouvelles sans doublons
+            utilisateur.LeconsValidees = utilisateur
+                .LeconsValidees.Union(utilisateurDto.LeconsValidees ?? new List<int>())
+                .ToList();
 
-            // Enregistrement des modifications
             _context.Entry(utilisateur).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
             return Ok(new UtilisateurDTO(utilisateur));
         }
 
+        // pour supprimer un utilisateur
         [HttpDelete("{id}")]
         [SwaggerOperation(
             Summary = "Supprimer un utilisateur",

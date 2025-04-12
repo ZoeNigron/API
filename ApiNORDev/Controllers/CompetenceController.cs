@@ -1,6 +1,5 @@
-using System.Collections.Generic;
-using System.Linq;
-using ApiNORDev.Data;
+// Le contrôleur CompetenceController gère les opérations CRUD pour les compétences, telles que la récupération, la création, la mise à jour et la suppression des compétences
+
 using ApiNORDev.Model;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -18,7 +17,7 @@ namespace ApiNORDev.Controllers
             _context = context;
         }
 
-        // GET: api/competences
+        // récupérer toutes les compétences
         [HttpGet]
         [SwaggerOperation(
             Summary = "Liste de toutes les compétences",
@@ -41,7 +40,7 @@ namespace ApiNORDev.Controllers
             return Ok(competences);
         }
 
-        // GET: api/competences/{id}
+        // récupérer une compétence par son id
         [HttpGet("{id}")]
         [SwaggerOperation(
             Summary = "Récupérer une compétence par ID",
@@ -61,7 +60,7 @@ namespace ApiNORDev.Controllers
             return Ok(competence);
         }
 
-        // POST: api/competences
+        // créer une nouvelle compétence
         [HttpPost]
         [SwaggerOperation(
             Summary = "Créer une nouvelle compétence",
@@ -89,7 +88,7 @@ namespace ApiNORDev.Controllers
             return CreatedAtAction(nameof(GetCompetence), new { id = competence.Id }, competence);
         }
 
-        // PUT: api/competences/{id}
+        // mettre à jour une compétence existante
         [HttpPut("{id}")]
         [SwaggerOperation(
             Summary = "Mettre à jour une compétence",
@@ -119,7 +118,7 @@ namespace ApiNORDev.Controllers
             return NoContent();
         }
 
-        // DELETE: api/competences/{id}
+        // supprimer une compétence par son id
         [HttpDelete("{id}")]
         [SwaggerOperation(
             Summary = "Supprimer une compétence",

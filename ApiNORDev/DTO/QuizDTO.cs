@@ -1,23 +1,29 @@
-using System.Collections.Generic;
+// Dans ce code, je crée un DTO à partir de l'objet Quiz du modèle de données
+
+using System.Text.Json.Serialization;
 using ApiNORDev.Model;
 
 namespace ApiNORDev.Dto
 {
     public class QuizDTO
     {
+        [JsonPropertyName("id")]
         public int Id { get; set; }
+
+        [JsonPropertyName("titre")]
         public string? Titre { get; set; }
+
+        [JsonPropertyName("questionsQuiz")]
         public List<QuestionQuizDTO> QuestionsQuiz { get; set; } = new List<QuestionQuizDTO>();
 
         public QuizDTO() { }
 
-        // Constructeur qui prend le Quiz et ses questions par ID avec leurs options
-        public QuizDTO(Quiz quiz)
+        public QuizDTO(Quiz quiz) // constructeur qui permet de transformer un objet Quiz en QuizDTO
         {
             Id = quiz.Id;
             Titre = quiz.Titre;
 
-            // Remplir les questions et leurs options à partir de la liste de questions associées
+            // on ajoute les questions et leurs options à partir de la liste de questions associées
             QuestionsQuiz = quiz.QuestionsQuiz.Select(q => new QuestionQuizDTO(q)).ToList();
         }
     }

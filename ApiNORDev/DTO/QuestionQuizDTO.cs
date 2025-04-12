@@ -1,9 +1,9 @@
-using System.Collections.Generic;
+// Dans ce code, je crée un DTO à partir de l'objet QuestionQuiz du modèle de données
+
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 using ApiNORDev.Model;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace ApiNORDev.Dto
 {
@@ -20,18 +20,16 @@ namespace ApiNORDev.Dto
         [JsonPropertyName("explication")]
         public string Explication { get; set; } = null!;
 
-        // Ajouter QuizId dans le DTO pour l'envoyer via l'API
         [JsonPropertyName("quizId")]
         public int QuizId { get; set; }
 
-        // Liste des options associées à la question
         [JsonIgnore]
         [JsonPropertyName("options")]
         public List<OptionDTO> Options { get; set; } = new List<OptionDTO>();
 
         public QuestionQuizDTO() { }
 
-        public QuestionQuizDTO(QuestionQuiz questionQuiz)
+        public QuestionQuizDTO(QuestionQuiz questionQuiz) // constructeur qui permet de transformer un objet QuestionQuiz en QuestionQuizDTO
         {
             Id = questionQuiz.Id;
             Question = questionQuiz.Question;

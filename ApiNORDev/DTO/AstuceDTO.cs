@@ -1,5 +1,4 @@
-// Dans ce code, je crée un DTO à partir de l'objet Astuce du modèle de données.
-// Le but est de ne garder que les infos nécessaires (ici : id et contenu) pour les envoyer plus facilement en JSON, dans mon API REST. Cela évite d’exposer toute la structure interne de l’objet Astuce et permet aussi de mieux contrôler ce qui est envoyé ou reçu côté client
+// Dans ce code, je crée un DTO à partir de l'objet Astuce du modèle de données
 
 using System.Text.Json.Serialization;
 using ApiNORDev.Model;
@@ -16,7 +15,7 @@ namespace ApiNORDev.Dto
 
         public AstuceDTO() { }
 
-        public AstuceDTO(Astuce astuce)
+        public AstuceDTO(Astuce astuce) // constructeur qui permet de transformer un objet Astuce en AstuceDTO
         {
             Id = astuce.Id;
             Contenu = astuce.Contenu;

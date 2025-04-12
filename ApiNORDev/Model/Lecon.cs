@@ -1,3 +1,5 @@
+// Dans ce code, je crée une classe représentant une Lecon, qui est liée à son DTO LeconDTO
+
 using System.ComponentModel.DataAnnotations;
 using ApiNORDev.Dto;
 

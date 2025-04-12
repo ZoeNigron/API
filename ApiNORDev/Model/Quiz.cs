@@ -1,4 +1,5 @@
-using System.Collections.Generic;
+// Dans ce code, je crée une classe représentant un Quiz, qui est liée à son DTO QuizDTO
+
 using System.ComponentModel.DataAnnotations;
 using ApiNORDev.Dto;
 

@@ -1,3 +1,5 @@
+// Dans ce code, je crée un DTO à partir de l'objet Option du modèle de données
+
 using System.Text.Json.Serialization;
 using ApiNORDev.Model;
 
@@ -19,7 +21,7 @@ namespace ApiNORDev.Dto
 
         public OptionDTO() { }
 
-        public OptionDTO(Option option)
+        public OptionDTO(Option option) // constructeur qui permet de transformer un objet Option en OptionDTO
         {
             QuestionQuizId = option.QuestionQuizId;
             Id = option.Id;

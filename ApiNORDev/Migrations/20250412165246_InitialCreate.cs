@@ -75,7 +75,7 @@ namespace ApiNORDev.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Titre = table.Column<string>(type: "TEXT", nullable: false)
+                    Titre = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {

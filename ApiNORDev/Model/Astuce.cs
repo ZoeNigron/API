@@ -1,3 +1,5 @@
+// Dans ce code, je crée une classe représentant une Astuce, qui est liée à son DTO AstuceDTO
+
 using ApiNORDev.Dto;
 
 namespace ApiNORDev.Model

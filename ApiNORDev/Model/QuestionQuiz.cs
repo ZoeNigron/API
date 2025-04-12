@@ -1,3 +1,5 @@
+// Dans ce code, je crée une classe représentant une QuestionQuiz, qui est liée à son DTO QuestionQuizDTO
+
 using ApiNORDev.Dto;
 
 namespace ApiNORDev.Model

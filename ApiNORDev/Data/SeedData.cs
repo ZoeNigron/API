@@ -1,3 +1,6 @@
+// Cette classe SeedData initialise la base de données avec des données par défaut pour les entités Utilisateurs, Astuces, Competences, Exercices, Leçons, Quizzes, QuestionsQuiz et leurs options associées
+// Elle vérifie d'abord si des données existent déjà, et si non, elle les ajoute dans la base de données
+
 using ApiNORDev.Model;
 
 namespace ApiNORDev.Data
@@ -99,7 +102,7 @@ namespace ApiNORDev.Data
                 {
                     Titre = "Compétence 1",
                     Description = "Évaluer les distances",
-                    Lien = "/quiz/:type",
+                    Lien = "/quiz/distance",
                     Icone = "FaRulerHorizontal",
                     CategorieIcone = "fa",
                 },
@@ -107,7 +110,7 @@ namespace ApiNORDev.Data
                 {
                     Titre = "Compétence 2",
                     Description = "S'orienter avec les points cardinaux",
-                    Lien = "/page-non-developpee",
+                    Lien = "/quiz/points",
                     Icone = "FaRegCompass",
                     CategorieIcone = "fa",
                 },
@@ -115,8 +118,24 @@ namespace ApiNORDev.Data
                 {
                     Titre = "Compétence 3",
                     Description = "Distances et points cardinaux",
-                    Lien = "/page-non-developpee",
+                    Lien = "/quiz/distancePoints",
                     Icone = "GiEarthAmerica",
+                    CategorieIcone = "gi",
+                },
+                new Competence
+                {
+                    Titre = "Compétence 4",
+                    Description = "Estimation de distances dans des environnements variés",
+                    Lien = "/page-non-developpee",
+                    Icone = "GiPathDistance",
+                    CategorieIcone = "gi",
+                },
+                new Competence
+                {
+                    Titre = "Compétence 5",
+                    Description = "Apprendre à suivre le soleil",
+                    Lien = "/page-non-developpee",
+                    Icone = "GiSundial",
                     CategorieIcone = "gi",
                 },
             };
@@ -147,6 +166,50 @@ namespace ApiNORDev.Data
                     Description = "Estimer une distance en regardant devant soi.",
                     Objectif =
                         "Regardez devant vous et ciblez un point fixe. Cliquez sur la carte afin de positionner ce point, puis estimez la distance à laquelle vous vous trouvez de ce point.",
+                },
+                new Lecon
+                {
+                    Titre = "Leçon 3 : Estimation de la distance d’un objet visible",
+                    Description =
+                        "Estimer la distance qui vous sépare d’un objet visible à l’œil nu.",
+                    Objectif =
+                        "Regardez un objet autour de vous. Entrez votre estimation de la distance en mètres, puis mesurez-la réellement pour comparer.",
+                },
+                new Lecon
+                {
+                    Titre = "Leçon 4 : Estimation de distances entre deux objets",
+                    Description = "Évaluer la distance séparant deux objets fixes.",
+                    Objectif =
+                        "Choisissez deux objets visibles autour de vous. Estimez la distance entre eux sans vous déplacer, puis vérifiez avec un outil de mesure.",
+                },
+                new Lecon
+                {
+                    Titre = "Leçon 5 : Estimation en nombre de pas",
+                    Description = "Convertir une distance estimée en nombre de pas.",
+                    Objectif =
+                        "Estimez combien de pas vous devez faire pour parcourir une distance donnée, puis testez en marchant.",
+                },
+                new Lecon
+                {
+                    Titre = "Leçon 6 : Estimation dans un environnement inconnu",
+                    Description =
+                        "Estimer une distance dans un espace que vous ne connaissez pas bien.",
+                    Objectif =
+                        "Dans un lieu nouveau ou peu familier, tentez une estimation de distance à un point donné, puis comparez avec la réalité.",
+                },
+                new Lecon
+                {
+                    Titre = "Leçon 7 : Estimation de la vitesse de déplacement",
+                    Description = "Évaluer à quelle vitesse vous vous déplacez (en m/s).",
+                    Objectif =
+                        "Déplacez-vous pendant un temps donné, puis estimez votre vitesse en fonction de la distance parcourue.",
+                },
+                new Lecon
+                {
+                    Titre = "Leçon 8 : Estimation avec obstacles",
+                    Description = "Estimer une distance malgré la présence d’obstacles visuels.",
+                    Objectif =
+                        "Essayez d’estimer la distance jusqu’à un point caché partiellement ou totalement. Ensuite, vérifiez la distance réelle.",
                 },
             };
 
@@ -228,19 +291,19 @@ namespace ApiNORDev.Data
             {
                 QuestionQuizId = question2.Id,
                 Texte = "+/- 1000 mètres",
-                EstCorrecte = true,
+                EstCorrecte = false,
             };
             var option7 = new Option
             {
                 QuestionQuizId = question3.Id,
                 Texte = "Choisir le meilleur chemin",
-                EstCorrecte = true,
+                EstCorrecte = false,
             };
             var option8 = new Option
             {
                 QuestionQuizId = question3.Id,
                 Texte = "Éviter de se perdre en estimant les intersections",
-                EstCorrecte = false,
+                EstCorrecte = true,
             };
             var option9 = new Option
             {

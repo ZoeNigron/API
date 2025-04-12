@@ -1,3 +1,5 @@
+// Dans ce code, je crée une classe représentant une Option, qui est liée à son DTO OptionDTO
+
 using ApiNORDev.Dto;
 
 namespace ApiNORDev.Model
@@ -10,7 +12,7 @@ namespace ApiNORDev.Model
             get { return _id; }
             set
             {
-                // On s'assure que l'identifiant du client est un entier positif
+                // on s'assure que l'identifiant de l'option est un entier positif
                 if (value <= 0 || !int.TryParse(value.ToString(), out _id))
                 {
                     throw new ArgumentException(

@@ -1,3 +1,5 @@
+// Dans ce code, je crée une classe représentant un Exercice, qui est liée à son DTO ExerciceDTO
+
 using System.ComponentModel.DataAnnotations;
 using ApiNORDev.Dto;
 

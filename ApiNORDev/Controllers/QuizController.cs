@@ -1,4 +1,5 @@
-using ApiNORDev.Data;
+// Le contrôleur QuizController gère les opérations CRUD pour les quiz, telles que la récupération, la création, la mise à jour et la suppression de quiz
+
 using ApiNORDev.Dto;
 using ApiNORDev.Model;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +19,7 @@ namespace ApiNORDev.Controllers
             _context = context;
         }
 
+        // pour récupérer un quiz spécifique par son identifiant
         [HttpGet("{id}")]
         [SwaggerOperation(
             Summary = "Récupérer un quiz par ID",
@@ -62,6 +64,7 @@ namespace ApiNORDev.Controllers
             return Ok(quiz);
         }
 
+        // pour récupérer tous les quiz disponibles
         [HttpGet]
         [SwaggerOperation(
             Summary = "Récupérer tous les quiz",
@@ -92,6 +95,7 @@ namespace ApiNORDev.Controllers
             public List<int> QuestionIds { get; set; } = new();
         }
 
+        // pour créer un nouveau quiz
         [HttpPost]
         [SwaggerOperation(Summary = "Créer un nouveau quiz")]
         public async Task<IActionResult> CreateQuiz([FromBody] QuizInput input)
@@ -132,6 +136,7 @@ namespace ApiNORDev.Controllers
             return CreatedAtAction(nameof(GetQuiz), new { id = quiz.Id }, result);
         }
 
+        // pour modifier un quiz existant
         [HttpPut("{id}")]
         [SwaggerOperation(Summary = "Modifier un quiz existant")]
         public async Task<IActionResult> UpdateQuiz(int id, [FromBody] QuizInput input)
@@ -179,6 +184,7 @@ namespace ApiNORDev.Controllers
             return Ok(result);
         }
 
+        // pour supprimer un quiz par son identifiant
         [HttpDelete("{id}")]
         [SwaggerOperation(
             Summary = "Supprimer un quiz",

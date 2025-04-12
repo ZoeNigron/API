@@ -1,3 +1,5 @@
+// Dans ce code, je crée un DTO à partir de l'objet Competence du modèle de données
+
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using ApiNORDev.Model;
@@ -27,7 +29,7 @@ namespace ApiNORDev.Dto
 
         public CompetenceDTO() { }
 
-        public CompetenceDTO(Competence competence)
+        public CompetenceDTO(Competence competence) // constructeur qui permet de transformer un objet Competence en CompetenceDTO
         {
             Id = competence.Id;
             Titre = competence.Titre;
