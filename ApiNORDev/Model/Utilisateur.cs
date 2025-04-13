@@ -1,4 +1,4 @@
-// Dans ce code, je crée une classe représentant une UtilisateurQuiz, qui est liée à son DTO UtilisateurDTO
+// Dans ce code, je crée une classe représentant un Utilisateur, qui est liée à son DTO UtilisateurDTO
 
 using System.ComponentModel.DataAnnotations;
 using ApiNORDev.Dto;

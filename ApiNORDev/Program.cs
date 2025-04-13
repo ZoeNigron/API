@@ -33,7 +33,6 @@ builder.Services.AddCors(options =>
                     "http://localhost:3000",
                     "http://172.20.10.2:3000",
                     "http://192.168.1.101:3000",
-                    "https://nordev.netlify.app",
                     "http://192.168.0.42:3000"
                 )
                 .AllowAnyHeader()
